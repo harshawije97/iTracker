@@ -24,7 +24,7 @@
         if ($result['success']) {
             // Redirect after successful login
             echo "<script>
-                    window.location.href = './views/dashboard.php';
+                    window.location.href = './page/dashboard.php';
                   </script>";
             exit;
         } else {
@@ -32,45 +32,45 @@
         }
     }
     ?>
-
-    <div class="login-container">
-        <div class="app-name">iTracker</div>
-        <h1 class="heading">Sign In</h1>
-        <div>
-            <?php if (!empty($message)): ?>
-                <div class="error-message">
-                    <?= htmlspecialchars($message) ?>
+    <section class="base px-4">
+        <div class="login-container">
+            <div class="app-name">iTracker</div>
+            <h1 class="heading">Sign In</h1>
+            <div class="error-message-container">
+                <?php if (!empty($message)): ?>
+                    <p class="error-message">
+                        <?= htmlspecialchars($message) ?>
+                    </p>
+                <?php endif; ?>
+            </div>
+            <form method="POST">
+                <div class="form-group">
+                    <input
+                        type="email"
+                        class="input-field"
+                        name="username"
+                        id="username"
+                        placeholder="Username"
+                        required>
                 </div>
-            <?php endif; ?>
-        </div>
-        <form method="POST">
-            <div class="form-group">
-                <input
-                    type="email"
-                    class="input-field"
-                    name="username"
-                    id="username"
-                    placeholder="Username"
-                    required>
+
+                <div class="form-group">
+                    <input
+                        type="password"
+                        class="input-field"
+                        name="password"
+                        id="password"
+                        placeholder="Password"
+                        required>
+                </div>
+
+                <button type="submit" class="continue-btn">Continue</button>
+            </form>
+
+            <div class="footer-text">
+                Don't have an account? <a href="#">Request Access</a>
             </div>
-
-            <div class="form-group">
-                <input
-                    type="password"
-                    class="input-field"
-                    name="password"
-                    id="password"
-                    placeholder="Password"
-                    required>
-            </div>
-
-            <button type="submit" class="continue-btn">Continue</button>
-        </form>
-
-        <div class="footer-text">
-            Don't have an account? <a href="#">Request Access</a>
         </div>
-    </div>
+    </section>
 </body>
-
 </html>

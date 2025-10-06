@@ -101,3 +101,14 @@ CREATE TABLE IF NOT EXISTS approval(
     FOREIGN KEY (incident_id) REFERENCES incidents(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+
+-- Values
+
+INSERT INTO auth (user_id, username, password) 
+VALUES 
+    (1, 'samantha.perera@bogestate.lk', SHA2('Samantha@2024', 256)),
+    (2, 'rajesh.fernando@bogestate.lk', SHA2('Rajesh@2024', 256)),
+    (3, 'dinesh.silva@headoffice.lk', SHA2('Dinesh@2024', 256)),
+    (4, 'nishani.jayawardena@headoffice.lk', SHA2('Nishani@2024', 256)),
+    (5, 'kamal.wijesinghe@headoffice.lk', SHA2('Kamal@2024', 256));
