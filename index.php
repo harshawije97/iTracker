@@ -9,19 +9,59 @@
 </head>
 
 <body>
-    <?php include_once './database/connection.php'; ?>
-    
+    <?php
+    include_once './services/auth.php'; ?>
+
+    <?php
+    $message = '';
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = trim($_POST['username']);
+        $password = trim($_POST['password']);
+
+        $result = login($username, $password);
+
+        if ($result['success']) {
+            // Redirect after successful login
+            echo "<script>
+                    window.location.href = './views/dashboard.php';
+                  </script>";
+            exit;
+        } else {
+            $message = $result['message'];
+        }
+    }
+    ?>
+
     <div class="login-container">
         <div class="app-name">iTracker</div>
         <h1 class="heading">Sign In</h1>
-
-        <form>
+        <div>
+            <?php if (!empty($message)): ?>
+                <div class="error-message">
+                    <?= htmlspecialchars($message) ?>
+                </div>
+            <?php endif; ?>
+        </div>
+        <form method="POST">
             <div class="form-group">
-                <input type="text" class="input-field" placeholder="Username" required>
+                <input
+                    type="email"
+                    class="input-field"
+                    name="username"
+                    id="username"
+                    placeholder="Username"
+                    required>
             </div>
 
             <div class="form-group">
-                <input type="password" class="input-field" placeholder="Password" required>
+                <input
+                    type="password"
+                    class="input-field"
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                    required>
             </div>
 
             <button type="submit" class="continue-btn">Continue</button>
