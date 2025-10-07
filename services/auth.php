@@ -107,9 +107,4 @@ function logout()
 
     session_unset();
     session_destroy();
-    return [
-        'success' => true,
-        'message' => 'Logout successful',
-        'data' => null
-    ];
 }

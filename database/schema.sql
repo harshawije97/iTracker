@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     estate_code VARCHAR(3) DEFAULT NULL,
-    role VARCHAR(25) NOT NULL,
+    role ENUM('chief-clerk', 'estate-manager', 'it-manager', 'assistant-it-manager', 'it-admin') NOT NULL,
     is_registered BOOLEAN DEFAULT FALSE,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -50,6 +50,19 @@ CREATE TABLE IF NOT EXISTS inventory (
 CREATE INDEX idx_inventory_estate_code ON inventory(estate_code);
 CREATE INDEX idx_inventory_user_id ON inventory(user_id);
 CREATE INDEX idx_inventory_category ON inventory(category);
+
+-- Table Updates
+ALTER TABLE inventory 
+ADD COLUMN is_head_office BOOLEAN DEFAULT FALSE;
+
+ALTER TABLE inventory 
+MODIFY COLUMN item_status ENUM('in stock', 'on repair') NOT NULL;
+
+ALTER TABLE inventory 
+MODIFY COLUMN estate_code VARCHAR(3) NULL;
+
+ALTER TABLE inventory 
+MODIFY COLUMN serial_number VARCHAR(50) NOT NULL UNIQUE;
 
 
 CREATE TABLE IF NOT EXISTS incidents (
@@ -104,11 +117,46 @@ CREATE TABLE IF NOT EXISTS approval(
 
 
 -- Values
-
 INSERT INTO auth (user_id, username, password) 
 VALUES 
-    (1, 'samantha.perera@bogestate.lk', SHA2('Samantha@2024', 256)),
-    (2, 'rajesh.fernando@bogestate.lk', SHA2('Rajesh@2024', 256)),
-    (3, 'dinesh.silva@headoffice.lk', SHA2('Dinesh@2024', 256)),
-    (4, 'nishani.jayawardena@headoffice.lk', SHA2('Nishani@2024', 256)),
-    (5, 'kamal.wijesinghe@headoffice.lk', SHA2('Kamal@2024', 256));
+    (6, 'samantha.perera@bogestate.lk', SHA2('Samantha@2024', 256)),
+    (7, 'rajesh.fernando@bogestate.lk', SHA2('Rajesh@2024', 256)),
+    (8, 'dinesh.silva@headoffice.lk', SHA2('Dinesh@2024', 256)),
+    (9, 'nishani.jayawardena@headoffice.lk', SHA2('Nishani@2024', 256)),
+    (10, 'kamal.wijesinghe@headoffice.lk', SHA2('Kamal@2024', 256));
+
+-- Users
+INSERT INTO users (first_name, last_name, email, estate_code, role, is_registered) 
+VALUES
+    ('Samantha', 'Perera', 'samantha.perera@bogestate.lk', 'KOT', 'chief-clerk', TRUE),
+    ('Rajesh', 'Fernando', 'rajesh.fernando@bogestate.lk', 'KOT', 'estate-manager', TRUE),
+    ('Dinesh', 'Silva', 'dinesh.silva@headoffice.lk', NULL, 'it-manager', TRUE),
+    ('Nishani', 'Jayawardena', 'nishani.jayawardena@headoffice.lk', NULL, 'assistant-it-manager', TRUE),
+    ('Kamal', 'Wijesinghe', 'kamal.wijesinghe@headoffice.lk', NULL, 'it-admin', TRUE);
+
+INSERT INTO estates (estate_code, estate_name) 
+VALUES 
+    ('BOG', 'Bogawana'),
+    ('BOW', 'Bogawantalawa'),
+    ('CAM', 'Campion'),
+    ('FET', 'Fetteresso'),
+    ('KOT', 'Kotigala'),
+    ('LET', 'Lethenty'),
+    ('LOI', 'Loinorn'),
+    ('NOR', 'Norwood'),
+    ('OSB', 'Osbrne'),
+    ('POY', 'Poyston'),
+    ('WAN', 'Wanarajah');
+
+INSERT INTO head_office (head_office_code, head_office_name, location) 
+VALUES 
+    ('HOB', 'Bogawantalawa Head Office', 'Bogawanthalawa, Central province');
+
+
+INSERT INTO inventory (serial_number, name, category, description, estate_code, is_head_office, user_id, item_status) 
+VALUES
+    ('KO/CPU/3', 'Assemble PC', 'Desktop', NULL, 'KOT', FALSE, 1, 'in stock'),
+    ('BTE/BO/CPU/11', 'HP Prodesk', 'Desktop', NULL, 'KOT', FALSE, 1, 'in stock'),
+    ('NXB17SG0013290F8787600', 'ACER TMP216', 'Laptop', NULL, 'KOT', FALSE, 1, 'in stock'),
+    ('Z5SVB8GC7B000Vl', 'Samsung ML1886', 'Printer', NULL, 'KOT', FALSE, 1, 'in stock'),
+    ('FT8Y077455', 'EPSON LQ-2090', 'Printer', NULL, 'KOT', FALSE, 1, 'in stock');
