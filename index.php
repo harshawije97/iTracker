@@ -24,7 +24,7 @@
         if ($result['success']) {
             // Redirect after successful login
             echo "<script>
-                    window.location.href = './page/dashboard.php';
+                    window.location.href = './dashboard.php';
                   </script>";
             exit;
         } else {

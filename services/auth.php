@@ -2,15 +2,6 @@
 
 require_once './database/connection.php';
 
-function isLoggedIn()
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    return isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
-}
-
 function login($username, $password)
 {
     global $conn;
@@ -59,6 +50,8 @@ function login($username, $password)
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['estate_code'] = $user['estate_code'] ?? null;
+        $_SESSION['is_registered'] = $user['is_registered'];
+        $_SESSION['logged_in'] = true;
 
 
         return [
@@ -77,6 +70,16 @@ function login($username, $password)
             'data' => null
         ];
     }
+}
+
+function isLoggedIn()
+{
+    // check if the session is up and running
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    return isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
 }
 
 // Get the session user
