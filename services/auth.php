@@ -44,7 +44,7 @@ function login($username, $password)
         // Only then start the session
         session_start();
 
-        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['first_name'] = $user['first_name'];
         $_SESSION['last_name'] = $user['last_name'];
         $_SESSION['username'] = $user['username'];

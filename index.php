@@ -32,7 +32,7 @@
         }
     }
     ?>
-    <section class="base px-4">
+    <section class="base flex-container">
         <div class="login-container">
             <div class="app-name">iTracker</div>
             <h1 class="heading">Sign In</h1>
