@@ -74,15 +74,13 @@
                             <line x1="1" y1="10" x2="23" y2="10"></line>
                         </svg>
                         <span>Billing</span>
-                        <span class="shortcut">⌘B</span>
                     </div>
-                    <div class="command-item" data-action="settings">
-                        <svg class="item-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="3"></circle>
-                            <path d="M12 1v6m0 6v6m5.2-13.2l-4.2 4.2m-2 2l-4.2 4.2M23 12h-6m-6 0H1m18.2 5.2l-4.2-4.2m-2-2l-4.2-4.2"></path>
+                    <div class="command-item" data-action="logout" onclick="window.location.href='./services/logout.php'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-power-icon lucide-power">
+                            <path d="M12 2v10" />
+                            <path d="M18.4 6.6a9 9 0 1 1-12.77.04" />
                         </svg>
-                        <span>Settings</span>
-                        <span class="shortcut">⌘S</span>
+                        <span>Logout</span>
                     </div>
                 </div>
             </div>

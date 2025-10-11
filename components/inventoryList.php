@@ -5,9 +5,8 @@
     include_once './services/auth.php';
 
     $sessionUser = getSessionUser();
-    $userId = $sessionUser['user_id'];
 
-    $inventory = getInventoryItemsByUserId($conn, $userId);
+    $inventory = getInventoryItemsByUserId($conn, $sessionUser['user_id']);
 
     if (!empty($inventory)) {
         foreach ($inventory as $item) {

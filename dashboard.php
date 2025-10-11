@@ -2,7 +2,7 @@
 
 <?php
 
-$sessionUser = isLoggedIn();
+$sessionUser = getSessionUser();
 if (!$sessionUser) {
     header('Location: index.php');
     exit;
@@ -18,6 +18,7 @@ if (!$sessionUser) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iTracker - Dashboard</title>
     <link rel="stylesheet" href="./public/style.css">
+    <script src="./public/js/main.js" defer></script>
 </head>
 
 <body>

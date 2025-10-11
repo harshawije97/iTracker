@@ -1,3 +1,15 @@
+<?php include_once './services/auth.php'; ?>
+
+<?php
+
+$sessionUser = getSessionUser();
+if (!$sessionUser) {
+    header('Location: index.php');
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -90,4 +102,5 @@
         </main>
     </section>
 </body>
+
 </html>

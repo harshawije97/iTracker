@@ -41,26 +41,29 @@ function login($username, $password)
             ];
         }
 
-        // Only then start the session
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-        $_SESSION['user_id'] = $user['user_id'];
-        $_SESSION['first_name'] = $user['first_name'];
-        $_SESSION['last_name'] = $user['last_name'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['role'] = $user['role'];
-        $_SESSION['estate_code'] = $user['estate_code'] ?? null;
-        $_SESSION['is_registered'] = $user['is_registered'];
-        $_SESSION['logged_in'] = true;
-
+        // This code is improved and optimized by ChatGPT
+        $_SESSION = array_merge($_SESSION, [
+            'user_id'      => $user['user_id'],
+            'first_name'   => $user['first_name'],
+            'last_name'    => $user['last_name'],
+            'username'     => $user['username'],
+            'role'         => $user['role'],
+            'estate_code'  => $user['estate_code'] ?? null,
+            'is_registered' => $user['is_registered'],
+            'logged_in'    => true
+        ]);
 
         return [
             'success' => true,
             'message' => 'Login successful',
             'data' => [
-                $_SESSION['first_name'] = $user['first_name'],
-                $_SESSION['last_name'] = $user['last_name'],
-                $_SESSION['username'] = $user['username']
+                'first_name' => $user['first_name'],
+                'last_name' => $user['last_name'],
+                'username' => $user['username']
             ]
         ];
     } catch (PDOException $e) {
@@ -72,30 +75,25 @@ function login($username, $password)
     }
 }
 
-function isLoggedIn()
+// Get the session user
+function getSessionUser()
 {
-    // check if the session is up and running
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
 
-    return isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
-}
-
-// Get the session user
-function getSessionUser()
-{
-    if (!isLoggedIn()) {
+    if (empty($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
         return null;
     }
 
     return [
-        'user_id' => $_SESSION['user_id'],
-        'username' => $_SESSION['username'],
-        'first_name' => $_SESSION['first_name'],
-        'last_name' => $_SESSION['last_name'],
-        'role' => $_SESSION['role'],
-        'estate_code' => $_SESSION['estate_code'] ?? null
+        'user_id'       => $_SESSION['user_id'] ?? null,
+        'username'      => $_SESSION['username'] ?? null,
+        'first_name'    => $_SESSION['first_name'] ?? null,
+        'last_name'     => $_SESSION['last_name'] ?? null,
+        'role'          => $_SESSION['role'] ?? null,
+        'estate_code'   => $_SESSION['estate_code'] ?? null,
+        'is_registered' => $_SESSION['is_registered'] ?? null
     ];
 }
 
