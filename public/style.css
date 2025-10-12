@@ -59,6 +59,22 @@ body {
   }
 }
 
+.size-sm {
+  width: 100% !important;
+}
+
+@media (min-width: 600px) {
+  .size-sm {
+    width: 50% !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .size-sm {
+    width: 25.33% !important;
+  }
+}
+
 .container {
   max-width: 1024px;
   margin: 0 auto;
@@ -796,7 +812,7 @@ body {
 }
 
 .upload-section {
-  margin-top: 32px;
+  margin-top: 0px;
   margin-bottom: 20px;
 }
 
