@@ -14,7 +14,46 @@ if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $values = [
+        'serial_number' => $_POST['serial_number'],
+        'name' => $_POST['name'],
+        'category' => $_POST['category'],
+        'description' => $_POST['description'] ?? null,
+        // 'image' => $_FILES['image'] ?? null,
+        'estate_code' => $_POST['estate_code']
+    ];
+
+    $response = saveInventoryItem($conn, $values);
+    if ($response['success']) {
+        $_SESSION['success_message'] = $result['message'];
+        header('Location: ' . $_SERVER['PHP_SELF']); // Prevent the resubmission of the form
+        exit;
+    } else {
+        $_SESSION['error_message'] = $response['message'];
+        header('Location: ' . $_SERVER['PHP_SELF']); // Prevent the resubmission of the form
+        exit;
+    }
+}
 ?>
+
+<?php
+// alert rendering...
+if (isset($_SESSION['success_message'])): ?>
+    <div>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '<?php echo htmlspecialchars($_SESSION['success_message']); ?>',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        </script>
+        <?php unset($_SESSION['success_message']); ?>
+    </div>
+<?php endif; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +63,9 @@ if (!isset($_SESSION['csrf_token'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Inventory Item</title>
     <link rel="stylesheet" href="./public/style.css">
+    <link href="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.26.1/dist/sweetalert2.min.css
+    " rel="stylesheet">
 </head>
 
 <body>
@@ -99,7 +141,9 @@ if (!isset($_SESSION['csrf_token'])) {
             </div>
         </div>
     </section>
-
+    <script src="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.26.1/dist/sweetalert2.all.min.js
+    "></script>
 </body>
 
 </html>

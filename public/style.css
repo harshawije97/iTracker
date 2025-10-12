@@ -185,6 +185,19 @@ body {
   position: sticky;
   top: 0;
   z-index: 999;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.secondary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .w-full {
@@ -645,6 +658,244 @@ body {
   color: #000000;
 }
 
+.incident-options {
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 2px 0px;
+}
+
+.incident-options:hover {
+  border: 1px solid oklch(92.8% 0.006 264.531);
+  background-color: oklch(92.8% 0.006 264.531);
+  cursor: pointer;
+}
+
+a.hover-underline {
+  text-decoration: none;
+}
+
+.hover-underline:hover {
+  text-decoration: underline;
+}
+
+.icon-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  outline: none;
+}
+
+@media (min-width: 360px) {
+  .mb-6 {
+    margin-bottom: 24px;
+  }
+
+  .px-16 {
+    padding: 0 16px;
+  }
+}
+
+@media (min-width: 760px) {
+  .mb-6 {
+    margin-bottom: 30px;
+  }
+}
+
+.icon-button:hover {
+  background-color: #dee2e6;
+}
+
+.icon-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+.title-section {
+  margin-bottom: 24px;
+}
+
+.browse-text {
+  color: #6c757d;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.mb-0 {
+  margin-bottom: 0px !important;
+}
+
+span.badge-yellow {
+  font-size: 12px;
+  font-weight: 400;
+  color: oklch(79.5% 0.184 86.047);
+  padding: 6px 0;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #212529;
+}
+
+.badge {
+  background-color: #a0f0ed;
+  color: #0c7c78;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 180px;
+  background-color: #dee2e6;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.image-placeholder-text {
+  color: #868e96;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.metadata {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 32px;
+  align-items: center;
+}
+
+.metadata-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metadata-label {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.metadata-label.green {
+  color: #10b981;
+}
+
+.metadata-label.black {
+  color: #212529;
+}
+
+.image-placeholder-visible {
+  background-color: #02061830;
+  border-radius: 20px;
+  padding: 11px;
+  margin-bottom: 35px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.image-placeholder-image {
+  width: 300px;
+  height: auto;
+}
+
+@media (max-width: 480px) {
+  .image-placeholder-image {
+    min-width: 100%;
+  }
+  .image-placeholder-visible {
+    background-color: transparent;
+  }
+}
+
+.created-by {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #065f46;
+  border: 2.5px solid #007a55;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: oklch(72.3% 0.219 149.579);
+}
+
+.created-by-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #212529;
+}
+
+.description-section {
+  margin-bottom: 24px;
+}
+
+.description-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #212529;
+  margin-bottom: 12px;
+}
+
+.description-text {
+  color: #495057;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.input-field {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #ced4da;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #6c757d;
+  background-color: #ffffff;
+  transition: border-color 0.2s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #10b981;
+}
+
+.input-field::placeholder {
+  color: #adb5bd;
+}
+
 .incident-date {
   font-size: 13px;
   color: #666666;
@@ -656,6 +907,12 @@ body {
   font-size: 14px;
   color: #333333;
   line-height: 1.5;
+}
+
+.footer-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .status-badge {
@@ -891,4 +1148,111 @@ body {
 
 .btn-primary:hover {
   background-color: #059669;
+}
+
+/* Container wraps trigger + popover + backdrop */
+.popover-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Trigger button (your 3-dot icon) */
+.incident-options.popover-trigger {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.incident-options.popover-trigger:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.incident-options.popover-trigger:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(63, 63, 70, 0.4);
+}
+
+/* Popover menu */
+.popover-content {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  padding: 8px 0;
+  width: 150px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+  z-index: 1001;
+}
+
+/* Visible state */
+.popover-content.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Popover links */
+.popover-link {
+  font-size: 13px;
+  color: #18181b;
+  text-decoration: none;
+  display: block;
+  padding: 8px 14px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.popover-link:hover {
+  background-color: #f4f4f5;
+  color: #000;
+}
+
+/* Arrow pointer (small triangle above popover) */
+.popover-content::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 16px;
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  transform: rotate(45deg);
+  box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.05);
+  z-index: -1;
+}
+
+/* Backdrop for outside-click detection */
+.popover-backdrop {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 1000;
+  display: none;
+}
+
+.popover-backdrop.active {
+  display: block;
+}
+
+/* Optional subtle animation when popover opens */
+@keyframes popoverFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.popover-content.active {
+  animation: popoverFadeIn 0.2s ease forwards;
 }

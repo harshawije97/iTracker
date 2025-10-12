@@ -1,6 +1,5 @@
 <?php
 
-require_once './database/connection.php';
 require_once './services/auth.php';
 require_once './services/constants/enums.php';
 
@@ -45,7 +44,7 @@ function saveInventoryItem(PDO $conn, $values)
         $stmt->bindValue(':image', $imageData, PDO::PARAM_LOB);
         $stmt->bindValue(':estate_code', $values['estate_code'], PDO::PARAM_STR);
         $stmt->bindValue(':user_id', $values['user_id'], PDO::PARAM_INT);
-        $stmt->bindValue(':item_status', ItemStatus::IN_STOCK, PDO::PARAM_STR);
+        $stmt->bindValue(':item_status', ItemStatus::IN_STOCK->value, PDO::PARAM_STR);
 
         $stmt->execute();
 
@@ -59,4 +58,12 @@ function saveInventoryItem(PDO $conn, $values)
             'message' => 'Error saving inventory item: ' . $error->getMessage()
         ];
     }
+}
+
+function getInventoryItemById(PDO $conn, int $id)
+{
+    $stmt = $conn->prepare("SELECT * FROM inventory WHERE id = :id");
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }

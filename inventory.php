@@ -53,6 +53,75 @@ if (!$sessionUser) {
             </div>
         </div>
     </section>
+    <!-- <script src="./public/js/main.js"></script> -->
+    <script>
+        let activePopover = null;
+
+        // Triggered by each popover button
+        function toggleSidePopover(button) {
+            const container = button.closest('.popover-container');
+            const content = container.querySelector('.popover-content');
+            const backdrop = container.querySelector('.popover-backdrop');
+            const isOpen = content.classList.contains('active');
+
+            // Close any open popover before opening a new one
+            if (activePopover && activePopover !== container) {
+                closeActivePopover();
+            }
+
+            if (isOpen) {
+                closePopover(backdrop);
+            } else {
+                openPopover(container, content, backdrop);
+            }
+        }
+
+        function openPopover(container, content, backdrop) {
+            content.classList.add('active');
+            backdrop.classList.add('active');
+            container.querySelector('.incident-options').setAttribute('aria-expanded', 'true');
+            activePopover = container;
+        }
+
+        function closePopover(backdrop) {
+            const container = backdrop.closest('.popover-container');
+            const content = container.querySelector('.popover-content');
+            content.classList.remove('active');
+            backdrop.classList.remove('active');
+            container.querySelector('.incident-options').setAttribute('aria-expanded', 'false');
+
+            if (activePopover === container) {
+                activePopover = null;
+            }
+        }
+
+        function closeActivePopover() {
+            if (activePopover) {
+                const backdrop = activePopover.querySelector('.popover-backdrop');
+                closePopover(backdrop);
+            }
+        }
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeActivePopover();
+            }
+        });
+
+        // Prevent clicks inside popover from closing it
+        document.addEventListener('click', (e) => {
+            if (activePopover) {
+                const content = activePopover.querySelector('.popover-content');
+                const isClickInside = content.contains(e.target) ||
+                    activePopover.querySelector('.incident-options').contains(e.target);
+                if (!isClickInside) {
+                    closeActivePopover();
+                }
+            }
+        });
+    </script>
+
 </body>
 
 </html>
