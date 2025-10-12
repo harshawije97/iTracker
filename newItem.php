@@ -70,6 +70,7 @@ if (isset($_SESSION['success_message'])): ?>
 
 <body>
     <section class="base">
+        <?php include_once './components/secondaryHeader.php'; ?>
         <div class="container">
             <div class="px-16 w-full">
                 <div class="main-content">

@@ -1,4 +1,4 @@
-<nav class="secondary-header mb-6 mx-6">
+<nav class="secondary-header">
     <button class="icon-button" aria-label="Go back" onclick="navigateBack()">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon lucide-arrow-left">
             <path d="m12 19-7-7 7-7" />
