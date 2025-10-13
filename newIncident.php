@@ -3,6 +3,8 @@ include_once './services/auth.php';
 include_once './services/inventoryService.php';
 include_once './services/userService.php';
 include_once './services/utils/generateID.php';
+include_once './services/incidentService.php';
+include_once './database/connection.php';
 ?>
 
 <?php
@@ -22,6 +24,42 @@ $key = generateUniqueKey(5);
 
 ?>
 
+<?php
+
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $values = [
+        'incident_code' => $_POST['incident_code'],
+        'title' => $_POST['title'],
+        'inventory_id' => $_POST['inventory_id'],
+        'description' => $_POST['description'] ?? null,
+        'image' => $_FILES['image'] ?? null,
+        'priority' => $_POST['priority'],
+        'manager_email' => $_POST['manager_email'],
+        'is_archived' => false,
+        'user_id' => $sessionUser['user_id'],
+        'estate_code' => $sessionUser['estate_code']
+    ];
+
+    // Save the incident
+    $response = saveIncident($conn, $values);
+
+    if ($response['success']) {
+        $_SESSION['success_message'] = $response['message'];
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit;
+    } else {
+        $_SESSION['error_message'] = $response['message'];
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit;
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,6 +71,7 @@ $key = generateUniqueKey(5);
 </head>
 
 <body>
+    <?php include_once './components/sweetAlert.php'; ?>
     <div class="base">
         <?php include_once './components/secondaryHeader.php'; ?>
         <div class="container">
@@ -49,6 +88,7 @@ $key = generateUniqueKey(5);
                         </div>
                     </div>
                     <form method="POST">
+                        <input type="hidden" name="incident_code" value="<?= $key ?>">
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
                         <div class="form-group">
                             <input type="text" class="input-field" name="title" placeholder="Title" required>
@@ -71,7 +111,8 @@ $key = generateUniqueKey(5);
                             <textarea
                                 class="textarea-field input-field"
                                 name="description"
-                                placeholder="Short Description (Optional)"></textarea>
+                                placeholder="Short Description (Optional)"
+                                maxlength="225"></textarea>
                         </div>
 
                         <div class="upload-section">

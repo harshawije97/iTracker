@@ -38,23 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<?php
-// alert rendering...
-if (isset($_SESSION['success_message'])): ?>
-    <div>
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: '<?php echo htmlspecialchars($_SESSION['success_message']); ?>',
-                showConfirmButton: false,
-                timer: 3000
-            });
-        </script>
-        <?php unset($_SESSION['success_message']); ?>
-    </div>
-<?php endif; ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,6 +49,7 @@ if (isset($_SESSION['success_message'])): ?>
 </head>
 
 <body>
+    <?php include_once './components/sweetAlert.php'; ?>
     <section class="base">
         <?php include_once './components/secondaryHeader.php'; ?>
         <div class="container">
