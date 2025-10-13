@@ -3,6 +3,7 @@
 require_once './services/auth.php';
 require_once './services/constants/enums.php';
 
+// Get all inventory items by user id
 function getInventoryItemsByUserId(PDO $conn, int $userId)
 {
     $stmt = $conn->prepare("SELECT * FROM inventory WHERE user_id = :userId");
@@ -11,6 +12,7 @@ function getInventoryItemsByUserId(PDO $conn, int $userId)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Save inventory item
 function saveInventoryItem(PDO $conn, $values)
 {
     // CSRF Protection --> to protect against cross-site request forgery
@@ -60,10 +62,22 @@ function saveInventoryItem(PDO $conn, $values)
     }
 }
 
+
+// Get inventory item by id
 function getInventoryItemById(PDO $conn, int $id)
 {
     $stmt = $conn->prepare("SELECT * FROM inventory WHERE id = :id");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+
+// Get all inventory items by estate code
+function getInventoryItemsByEstateCode(PDO $conn, string $estateCode)
+{
+    $stmt = $conn->prepare("SELECT id, serial_number, name FROM inventory WHERE estate_code = :estateCode");
+    $stmt->bindParam(':estateCode', $estateCode, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

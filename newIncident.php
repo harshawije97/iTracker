@@ -1,4 +1,9 @@
-<?php include_once './services/auth.php'; ?>
+<?php
+include_once './services/auth.php';
+include_once './services/inventoryService.php';
+include_once './services/userService.php';
+include_once './services/utils/generateID.php';
+?>
 
 <?php
 
@@ -7,6 +12,13 @@ if (!$sessionUser) {
     header('Location: index.php');
     exit;
 }
+
+// Get all inventory items by estate code
+$inventoryItems = getInventoryItemsByEstateCode($conn, $sessionUser['estate_code']);
+
+// Get all managers
+$headOfficeManagers = getAllManagers($conn, true, ['first_name', 'last_name', 'email']);
+$key = generateUniqueKey(5);
 
 ?>
 
@@ -30,44 +42,67 @@ if (!$sessionUser) {
                         <div class="add-new">Add New</div>
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <h1 class="main-title">Incident</h1>
-                            <span class="auto-id-badge">Incident Auto ID</span>
+                            <span class="auto-id-badge">
+                                Incident ID:
+                                <?= htmlspecialchars($key) ?>
+                            </span>
                         </div>
                     </div>
                     <form method="POST">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
                         <div class="form-group">
-                            <input type="text" class="input-field" name="title" placeholder="Title">
+                            <input type="text" class="input-field" name="title" placeholder="Title" required>
                         </div>
 
                         <div class="form-group">
-                            <select class="select-field">
-                                <option>Select Inventory Item</option>
+                            <select class="select-field" name="inventory_id" required>
+                                <option disabled selected>Select Inventory Item</option>
+                                <?php foreach ($inventoryItems as $item) {
+                                ?>
+                                    <option value="<?= $item['id'] ?>">
+                                        <?= htmlspecialchars($item['serial_number']) ?>
+                                        <?= htmlspecialchars($item['name']) ?>
+                                    </option>
+                                <?php } ?>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <textarea class="textarea-field input-field" placeholder="Short Description (Optional)"></textarea>
+                            <textarea
+                                class="textarea-field input-field"
+                                name="description"
+                                placeholder="Short Description (Optional)"></textarea>
                         </div>
 
                         <div class="upload-section">
                             <label class="upload-label">Upload reference images</label>
-                            <button type="button" class="upload-button">
-                                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" />
-                                </svg>
-                                Upload Images
-                            </button>
+                            <input
+                                type="file"
+                                id="fileInput"
+                                name="image"
+                                class="upload-button"
+                                accept="image/jpeg,image/png,image/jpg,image/webp"
+                                placeholder="Upload Images">
                             <p class="helper-text">Upload incident events are not mandatory. But a better usage for future endevours</p>
                         </div>
 
                         <div class="form-group">
-                            <select class="priority-dropdown">
-                                <option>Priority</option>
+                            <select class="priority-dropdown" name="priority" required>
+                                <option disabled selected>Select Priority</option>
+                                <option value="low">Low</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="high">High</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <select class="select-field">
-                                <option>Assign Manager</option>
+                            <select class="select-field" name="manager_email">
+                                <option disabled selected>Assign to manager</option>
+                                <?php foreach ($headOfficeManagers as $manager) { ?>
+                                    <option value="<?= htmlspecialchars($manager['email']) ?>">
+                                        <?= htmlspecialchars($manager['first_name']) . ' ' . htmlspecialchars($manager['last_name']) ?>
+                                    </option>
+                                <?php } ?>
                             </select>
                         </div>
 

@@ -84,6 +84,9 @@ CREATE TABLE IF NOT EXISTS incidents (
     FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
 );
 
+ALTER TABLE incidents 
+MODIFY COLUMN manager_email TEXT NULL;
+
 CREATE INDEX idx_incidents_inventory_id ON incidents(inventory_id);
 CREATE INDEX idx_incidents_estate_code ON incidents(estate_code);
 CREATE INDEX idx_incidents_priority ON incidents(priority);
