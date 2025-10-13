@@ -1,5 +1,6 @@
-<header class="header sm:hidden">
-    <div class="menu-icon">
+<?php include_once './components/sidebar.php'; ?>
+<header class="header">
+    <div class="menu-icon" onclick="toggleSideBar()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="12" x2="21" y2="12"></line>

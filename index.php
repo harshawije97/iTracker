@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iTracker - Sign In</title>
-    <link rel="stylesheet" href="./public/style.css">
+    <?php include_once './shared/links.php' ?>
 </head>
 
 <body>
@@ -73,4 +73,5 @@
         </div>
     </section>
 </body>
+
 </html>

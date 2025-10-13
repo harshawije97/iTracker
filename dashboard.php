@@ -17,8 +17,7 @@ if (!$sessionUser) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iTracker - Dashboard</title>
-    <link rel="stylesheet" href="./public/style.css">
-    <script src="./public/js/main.js" defer></script>
+    <?php include_once './shared/links.php' ?>
 </head>
 
 <body>

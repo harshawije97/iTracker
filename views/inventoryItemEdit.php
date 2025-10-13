@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Item - Edit</title>
+    <?php include_once './shared/links.php' ?>
 </head>
 
 <body>

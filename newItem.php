@@ -62,10 +62,7 @@ if (isset($_SESSION['success_message'])): ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Inventory Item</title>
-    <link rel="stylesheet" href="./public/style.css">
-    <link href="
-    https://cdn.jsdelivr.net/npm/sweetalert2@11.26.1/dist/sweetalert2.min.css
-    " rel="stylesheet">
+    <?php include_once './shared/links.php' ?>
 </head>
 
 <body>
