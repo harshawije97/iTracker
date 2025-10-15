@@ -10,6 +10,15 @@ body {
   background-color: oklch(96.8% 0.007 247.896);
 }
 
+.container {
+  background-color: white;
+  border-radius: 24px;
+  padding: 48px 40px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
 .px-4 {
   padding: 18px 20px;
   margin-top: 2rem;

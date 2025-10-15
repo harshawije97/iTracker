@@ -68,7 +68,7 @@
             </form>
 
             <div class="footer-text">
-                Don't have an account? <a href="#">Request Access</a>
+                Don't have an account? <a href="./register.php">Request Access</a>
             </div>
         </div>
     </section>
