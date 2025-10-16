@@ -38,12 +38,12 @@ if (!$sessionUser) {
                             </svg>
                             <input type="text" placeholder="Search items" class="search-input">
                         </div>
-                        <button class="filter-btn">
+                        <select class="filter-btn">
                             Filter
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
-                        </button>
+                        </select>
                     </div>
                     <?php include_once './components/incidentList.php'; ?>
                     <a href="./newIncident.php">

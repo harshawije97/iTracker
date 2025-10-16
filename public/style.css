@@ -523,10 +523,6 @@ body {
   border: 1px solid #f0f0f0;
 }
 
-.incident-item:last-child {
-  border-bottom: none;
-}
-
 .incident-avatar {
   width: 48px;
   height: 48px;
@@ -929,12 +925,20 @@ span.badge-yellow {
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background-color: #fff8e1;
-  color: #f59e0b;
   border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
   align-self: flex-start;
+}
+
+.badge-danger {
+  background-color: oklch(93.6% 0.032 17.717);
+  color: oklch(57.7% 0.245 27.325);
+}
+
+.badge-moderate {
+  background-color: oklch(96.2% 0.059 95.617);
+  color: oklch(66.6% 0.179 58.318);
 }
 
 .status-badge-green {

@@ -17,7 +17,7 @@ enum Role: string
 
 enum IncidentPriority: string
 {
-    case LOW = 'low';
-    case MODERATE = 'moderate';
-    case HIGH = 'high';
+    case LOW = 'Low';
+    case MODERATE = 'Moderate';
+    case HIGH = 'High';
 }
