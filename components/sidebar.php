@@ -1,9 +1,7 @@
  <?php include_once './services/auth.php'; ?>
 
  <?php
-
     $sessionUser = getSessionUser();
-
     ?>
 
  <aside class="sidebar" id="sidebar">
@@ -29,7 +27,16 @@
          </li>
          <li class="sidebar-item">
              <a href="./inventory.php" class="sidebar-link">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-archive-icon lucide-archive">
+                 <svg xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="lucide lucide-archive-icon lucide-archive">
                      <rect width="20" height="5" x="2" y="3" rx="1" />
                      <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8" />
                      <path d="M10 12h4" />
@@ -50,7 +57,7 @@
                  </span>
              </a>
          </li>
-         <?php if ($sessionUser['role'] == 'admin') { ?>
+         <?php if (str_ends_with($sessionUser['role'], 'manager')) { ?>
              <li class="sidebar-item">
                  <a href="users.php" class="sidebar-link">
                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
