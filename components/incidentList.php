@@ -27,9 +27,11 @@ if ($isManager) {
             <div class="incident-item">
                 <div class="incident-content">
                     <div class="incident-header">
-                        <h3 class="incident-title">
-                            <?= htmlspecialchars($incident['title']) ?>
-                        </h3>
+                        <a href="./incident.php?id=<?= $incident['id'] ?>&incident_code=<?= $item['incident_code'] ?>" class="hover-underline">
+                            <h3 class="incident-title">
+                                <?= htmlspecialchars($incident['title']) ?>
+                            </h3>
+                        </a>
                         <span class="incident-date">
                             <?= htmlspecialchars(date('Y-m-d', strtotime($incident['created_at']))) ?>
                         </span>
