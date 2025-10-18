@@ -5,10 +5,59 @@
 // get all incidents by user id
 function getIncidentsByUserId(PDO $conn, $user_id)
 {
-    $stmt = $conn->prepare("SELECT * FROM incidents WHERE user_id = :user_id");
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $conn->prepare("SELECT * FROM incidents WHERE user_id = :user_id");
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+
+        return [
+            'success' => true,
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get incidents: ' . $error->getMessage()
+        ];
+    }
+}
+
+// get all incidents by estate code
+function getIncidentsByEstateCode(PDO $conn, $estateCode)
+{
+    try {
+        $stmt = $conn->prepare("SELECT * FROM incidents WHERE estate_code = :estateCode");
+        $stmt->bindParam(':estateCode', $estateCode);
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get incidents: ' . $error->getMessage()
+        ];
+    }
+}
+
+function getAllIncidents(PDO $conn, $username)
+{
+    try {
+        // Get all incidents and filter by username if there are any
+        $stmt = $conn->prepare("SELECT * FROM incidents WHERE (manager_email = :username OR manager_email IS NULL OR manager_email = '') ORDER BY created_at DESC");
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get incidents: ' . $error->getMessage()
+        ];
+    }
 }
 
 

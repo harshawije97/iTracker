@@ -7,8 +7,18 @@ include_once './services/constants/enums.php';
 
 <?php
 $sessionUser = getSessionUser();
-$incidents = getIncidentsByUserId($conn, $sessionUser['user_id']);
 
+$isManager = str_ends_with($sessionUser['role'], 'manager');
+
+if ($isManager) {
+    $managerIncidents = $sessionUser['estate_code'] === null
+        ? getAllIncidents($conn, $sessionUser['username'])
+        : getIncidentsByEstateCode($conn, $sessionUser['estate_code']);
+
+    var_dump($managerIncidents);
+} else {
+    $incidents = getIncidentsByUserId($conn, $sessionUser['user_id']);
+}
 ?>
 
 <div class="incidents-list">

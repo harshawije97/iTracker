@@ -38,7 +38,7 @@ if (!$sessionUser) {
                             <input type="text" placeholder="Search items" class="search-input">
                         </div>
                         <!-- filter the inventory items -->
-                        <select name="cars" id="cars" class="filter-btn">
+                        <select name="inventoryItems" id="inventoryItems" class="filter-btn">
                             <option>Filter</option>
                             <option value="resent">Recently Added</option>
                             <option value="in-stock">In Stock</option>
