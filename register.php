@@ -102,29 +102,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 24px;
         }
 
-        .form-input,
-        .form-select {
-            width: 100%;
-            padding: 16px 20px;
-            border: 2px solid #000;
-            border-radius: 12px;
-            font-size: 15px;
-            font-family: inherit;
-            background-color: white;
-            transition: border-color 0.2s;
-            appearance: none;
-        }
-
-        .form-input:focus,
-        .form-select:focus {
-            outline: none;
-            border-color: #10b981;
-        }
-
-        .form-input::placeholder {
-            color: #000;
-        }
-
         .select-wrapper {
             position: relative;
         }
