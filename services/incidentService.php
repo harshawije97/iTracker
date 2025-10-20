@@ -86,7 +86,7 @@ function saveIncident(PDO $conn, $values)
         $stmt->bindValue(':title', $values['title'], PDO::PARAM_STR);
         $stmt->bindValue(':inventory_id', $values['inventory_id'], PDO::PARAM_INT);
         $stmt->bindValue(':description', $values['description'], PDO::PARAM_STR);
-        $stmt->bindValue(':image', $imageData, PDO::PARAM_STR);
+        $stmt->bindValue(':image', $imageData, PDO::PARAM_LOB);
         $stmt->bindValue(':priority', $values['priority'], PDO::PARAM_STR);
         $stmt->bindValue(':manager_email', $values['manager_email'], PDO::PARAM_STR);
         $stmt->bindValue(':is_archived', $values['is_archived'], PDO::PARAM_BOOL);

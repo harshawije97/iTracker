@@ -657,7 +657,7 @@ body {
 }
 /* End of modal */
 
-.incident-title {
+.incident-title-sm {
   font-size: 17px;
   font-weight: 600;
   color: #000000;
@@ -683,7 +683,7 @@ a.hover-underline {
 }
 
 .hover-underline:hover {
-  text-decoration: underline;
+  text-decoration: underline #000000;
 }
 
 .icon-button {

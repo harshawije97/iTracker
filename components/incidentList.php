@@ -7,7 +7,6 @@ include_once './services/constants/enums.php';
 
 <?php
 $sessionUser = getSessionUser();
-
 $isManager = str_ends_with($sessionUser['role'], 'manager');
 
 if ($isManager) {
@@ -15,20 +14,21 @@ if ($isManager) {
         ? getAllIncidents($conn, $sessionUser['username'])
         : getIncidentsByEstateCode($conn, $sessionUser['estate_code']);
 
-    var_dump($managerIncidents);
 } else {
-    $incidents = getIncidentsByUserId($conn, $sessionUser['user_id']);
+    
+    $response = getIncidentsByUserId($conn, $sessionUser['user_id']);
 }
 ?>
 
 <div class="incidents-list">
-    <?php if (!empty($incidents)) { ?>
-        <?php foreach ($incidents as $incident) { ?>
+    <?php if ($response['success'] && !empty($response['data'])) { ?>
+        <?php foreach ($response['data'] as $incident) { ?>
+            <!-- $response['data'] is an array of incidents -->
             <div class="incident-item">
                 <div class="incident-content">
                     <div class="incident-header">
-                        <a href="./incident.php?id=<?= $incident['id'] ?>&incident_code=<?= $item['incident_code'] ?>" class="hover-underline">
-                            <h3 class="incident-title">
+                        <a href="./incident.php?id=<?= $incident['id'] ?>&incident_code=<?= $incident['incident_code'] ?>" class="hover-underline">
+                            <h3 class="incident-title-sm">
                                 <?= htmlspecialchars($incident['title']) ?>
                             </h3>
                         </a>
@@ -76,5 +76,4 @@ if ($isManager) {
             <p class='color-gray'>Incidents are empty</p>
         </div>
     <?php } ?>
-
 </div>

@@ -1,4 +1,8 @@
-<?php ?>
+<?php 
+include_once './database/connection.php';
+include_once './services/incidentService.php';
+include_once './services/auth.php'
+?>
 
 <?php
 $sessionUser = getSessionUser();
