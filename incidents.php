@@ -50,7 +50,6 @@ if (!$sessionUser) {
                         </select>
                     </div>
                     <?php include_once './components/incidentList.php'; ?>
-
                     <?php
                     if (!str_ends_with($sessionUser['role'], 'manager')) { ?>
                         <a href="./newIncident.php">

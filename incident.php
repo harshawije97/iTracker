@@ -12,6 +12,7 @@ if (!$sessionUser) {
 }
 
 $isManager = str_ends_with($sessionUser['role'], 'manager');
+// var_dump($sessionUser['role']);
 
 // get search parameters
 $id = $_GET['id'] ?? null;

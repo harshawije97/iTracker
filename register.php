@@ -1,3 +1,45 @@
+<?php
+include_once './services/estateService.php';
+include_once './database/connection.php';
+include_once './services/auth.php';
+?>
+
+<?php
+$response = getAllEstatesByParameters($conn, ['estate_code', 'estate_name']);
+$estates = $response['data'];
+?>
+
+<?php
+
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $values = [
+        'first_name' => $_POST['first_name'],
+        'last_name' => $_POST['last_name'],
+        'email' => $_POST['email'],
+        'estate_code' => $_POST['estate_code'],
+        'role' => $_POST['role'],
+    ];
+
+    // Register new user as a request accessed user
+    $response = registerNewUser($conn, $values);
+
+    if ($response['success']) {
+        $_SESSION['success_message'] = $response['message'];
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit;
+    } else {
+        $_SESSION['error_message'] = $response['message'];
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit;
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -169,38 +211,39 @@
                 If you are willing to use this system. You have to request your access to system admin for a profile creation
             </p>
 
-            <form>
+            <form method="POST">
                 <div class="form-group">
-                    <input type="text" class="form-input" placeholder="First Name" required>
+                    <input type="text" name="first_name" class="form-input" placeholder="First Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="last_name" class="form-input" placeholder="Last Name" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="text" class="form-input" placeholder="Last Name" required>
-                </div>
-
-                <div class="form-group">
-                    <input type="email" class="form-input" placeholder="Email" required>
+                    <input type="email" name="email" class="form-input" placeholder="Email" required>
                     <div class="helper-text">Your email is your username for login to the system</div>
                 </div>
 
                 <div class="form-group">
                     <div class="select-wrapper">
-                        <select class="form-select" required>
-                            <option value="">Select Estate</option>
-                            <option value="estate1">Estate 1</option>
-                            <option value="estate2">Estate 2</option>
-                            <option value="estate3">Estate 3</option>
+                        <select name="estate_code" class="form-select" required>
+                            <option selected disabled>Select Estate</option>
+                            <?php foreach ($estates as $estate) { ?>
+                                <option value="<?= $estate['estate_code'] ?>"><?= $estate['estate_name'] ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="select-wrapper">
-                        <select class="form-select" required>
-                            <option value="">Select User Role</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
-                            <option value="manager">Manager</option>
+                        <select name="role" class="form-select" required>
+                            <option selected disabled>Select User Role</option>
+                            <option value="chief-clerk">Chief Clerk</option>
+                            <option value="estate-manager">Estate Manager</option>
+                            <option value="it-manager">IT Manager</option>
+                            <option value="assistant-it-manager">Assistant IT Manager</option>
+                            <option value="it-admin">IT Admin</option>
                         </select>
                     </div>
                 </div>

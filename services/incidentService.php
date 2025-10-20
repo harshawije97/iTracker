@@ -1,5 +1,3 @@
-<?php include_once './services/incidentService.php'; ?>
-
 <?php
 
 // get all incidents by user id
