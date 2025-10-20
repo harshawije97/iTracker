@@ -10,12 +10,10 @@ $sessionUser = getSessionUser();
 $isManager = str_ends_with($sessionUser['role'], 'manager');
 
 if ($isManager) {
-    $managerIncidents = $sessionUser['estate_code'] === null
+    $response = $sessionUser['estate_code'] === null
         ? getAllIncidents($conn, $sessionUser['username'])
         : getIncidentsByEstateCode($conn, $sessionUser['estate_code']);
-
 } else {
-    
     $response = getIncidentsByUserId($conn, $sessionUser['user_id']);
 }
 ?>

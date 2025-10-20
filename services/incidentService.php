@@ -106,3 +106,22 @@ function saveIncident(PDO $conn, $values)
         ];
     }
 }
+
+// Get incident by incidentCode
+function getIncidentByCode(PDO $conn, $incidentCode)
+{
+    try {
+        $stmt = $conn->prepare("SELECT * FROM incidents WHERE incident_code = :incident_code");
+        $stmt->bindParam(':incident_code', $incidentCode);
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetch(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get incident: ' . $error->getMessage()
+        ];
+    }
+}

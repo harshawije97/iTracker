@@ -1,4 +1,4 @@
-<?php 
+<?php
 include_once './database/connection.php';
 include_once './services/incidentService.php';
 include_once './services/auth.php'
@@ -15,7 +15,17 @@ $isManager = str_ends_with($sessionUser['role'], 'manager');
 
 // get search parameters
 $id = $_GET['id'] ?? null;
-$serial_number = $_GET['serial_number'] ?? null;
+$incident_code = $_GET['incident_code'] ?? null;
+
+// Get incident by ID
+$response = getIncidentByCode($conn, $incident_code);
+if (!$response['success']) {
+    header('Location: incidents.php');
+    exit;
+}
+
+$incident = $response['data'];
+// var_dump($incident);
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +47,7 @@ $serial_number = $_GET['serial_number'] ?? null;
                     <div class="title-section">
                         <div class="browse-text">Update</div>
                         <div class="title-row">
-                            <span class="badge">Incident No: E12345</span>
+                            <span class="badge">Incident No: <?= htmlspecialchars($incident_code) ?></span>
                         </div>
                         <div class="profile-section">
                             <div class="created-by">
@@ -47,36 +57,53 @@ $serial_number = $_GET['serial_number'] ?? null;
                             </div>
                             <div class="profile-info">
                                 <span class="first-name">First Name</span>
-                                <span class="badge badge-priority">⚡ Priority</span>
-                                <span class="badge badge-estate">Estate Name</span>
+                                <span class="badge badge-priority">
+                                    <?= htmlspecialchars($incident['priority']) ?>
+                                </span>
+                                <span class="badge badge-estate">
+                                    <?= htmlspecialchars($incident['estate_code']) ?>
+                                </span>
                             </div>
                         </div>
                     </div>
 
                     <section class="title-wrapper">
-                        <h1 class="page-title mb-0">Title</h1>
+                        <h1 class="page-title mb-0">
+                            <?= htmlspecialchars($incident['title']) ?>
+                        </h1>
                     </section>
 
                     <div class="description-section">
                         <h2 class="description-title">Description</h2>
                         <p class="description-text">
-                            <?= htmlspecialchars($inventoryItem['description']) ?>
+                            <?= htmlspecialchars($incident['description']) ?>
                         </p>
                     </div>
 
-                    <?php if (!$inventoryItem['image']) { ?>
+                    <?php if (!$incident['image']) { ?>
                         <div class="image-placeholder">
                             <span class="image-placeholder-text">No image</span>
                         </div>
                     <?php } ?>
 
-                    <?php if ($inventoryItem['image']) { ?>
+                    <?php if ($incident['image']) { ?>
                         <div class="image-placeholder-visible">
                             <img
-                                src="data:image/jpeg;base64,<?php echo base64_encode($inventoryItem['image']); ?>"
+                                src="data:image/jpeg;base64,<?php echo base64_encode($incident['image']); ?>"
                                 alt="Inventory Item Image"
                                 class="image-placeholder-image">
                         <?php } ?>
+                        </div>
+                        <div class="more-information activity-section">
+                            <section>
+                                <p>Assigned to:</p>
+                                <h3><?= htmlspecialchars($incident['manager_email']) ?></h3>
+                            </section>
+                            <section>
+                                <button type="button" class="btn btn-success">
+                                    View Activity
+                                </button>
+                            </section>
                         </div>
                 </div>
                 <?php
