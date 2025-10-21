@@ -1,8 +1,61 @@
+<?php
+include_once './database/connection.php';
+include_once './services/incidentService.php';
+include_once './services/auth.php'
+?>
+
+<?php
+$sessionUser = getSessionUser();
+if (!$sessionUser) {
+    header('Location: index.php');
+    exit;
+}
+
+$isManager = str_ends_with($sessionUser['role'], 'manager');
+// var_dump($sessionUser['role']);
+
+// get search parameters
+$id = $_GET['id'] ?? null;
+$incident_code = $_GET['incident_code'] ?? null;
+?>
+
+<?php
+
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $values = [
+        'incident_id' => $id,
+        'status' => $_POST['status'],
+        'description' => $_POST['description'] ?? null,
+        'image' => $_FILES['image'] ?? null,
+        'user_id' => $sessionUser['user_id']
+    ];
+
+    // Update the incident
+    $response = updateIncident($conn, $values);
+
+    if ($response['success']) {
+        $_SESSION['success_message'] = $response['message'];
+        exit;
+    } else {
+        $_SESSION['error_message'] = $response['message'];
+        exit;
+    }
+}
+
+?>
+
+<?php include_once './components/sweetAlert.php'; ?>
+
 <div class="incident-edit-wrapper mt-20">
     <div class="container">
         <h1 class="title">Update Process</h1>
 
         <form method="POST" id="incidentUpdateForm">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
             <div class="form-group mt-20">
                 <select class="priority-dropdown" name="status" required>
                     <option disabled selected>Select Status</option>
