@@ -37,6 +37,7 @@ $incident = $response['data'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Single Incident</title>
     <?php include_once './shared/links.php' ?>
+    <?php include_once './shared/functions.php' ?>
 </head>
 
 <body>
@@ -109,7 +110,7 @@ $incident = $response['data'];
                 </div>
                 <?php
                 if ($isManager && $sessionUser['estate_code'] === null) {
-                    include_once './views/partial/incidentEdit.php';
+                    include_once './incidentEdit.php';
                 }
                 ?>
             </div>

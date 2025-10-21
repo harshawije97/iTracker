@@ -1,0 +1,55 @@
+<div class="incident-edit-wrapper mt-20">
+    <div class="container">
+        <h1 class="title">Update Process</h1>
+
+        <form method="POST" id="incidentUpdateForm">
+            <div class="form-group mt-20">
+                <select class="priority-dropdown" name="status" required>
+                    <option disabled selected>Select Status</option>
+                    <option value="Resent" disabled selected>Resent</option>
+                    <option value="Opened">Opened</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="comments-header">
+                <h2 class="comments-title">Comments</h2>
+                <div class="comments-actions">
+                    <a href="?view=all-incidents&role=<?= htmlspecialchars($sessionUser['role']) ?>" class="view-all" target="_blank">View All</a>
+                    <button class="icon-button w-none" aria-label="reset" id="addComment" onclick="resetForm()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+                            <path d="M5 12h14" />
+                            <path d="M12 5v14" />
+                        </svg>
+                        Add New
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <textarea
+                    class="textarea-field input-field"
+                    name="description"
+                    placeholder="Add your comments here..."
+                    maxlength="225"></textarea>
+            </div>
+
+            <div class="upload-section">
+                <label class="upload-label">Upload reference images</label>
+                <input
+                    type="file"
+                    id="fileInput"
+                    name="image"
+                    class="upload-button"
+                    accept="image/jpeg,image/png,image/jpg,image/webp"
+                    placeholder="Upload Images">
+                <p class="helper-text">Upload evidences are not mandatory. But a better usage for future endevours</p>
+            </div>
+            <button type="submit" class="btn-primary">Update & Continue</button>
+        </form>
+    </div>
+
+</div>

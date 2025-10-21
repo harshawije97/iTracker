@@ -31,7 +31,7 @@
                             </button>
                             <section class="popover-backdrop" onclick="closePopover(this)"></section>
                             <span class="popover-content">
-                                <a href="/iTracker/views/inventoryItemEdit.php?id=<?= $item['id'] ?>&serial_number=<?= $item['serial_number'] ?>" class="popover-link">Update Item</a>
+                                <a href="./inventoryItemEdit.php?id=<?= $item['id'] ?>&serial_number=<?= $item['serial_number'] ?>" class="popover-link">Update Item</a>
                                 <span class="popover-link" onclick="alert('Product Archived')">Archive Item</span>
                             </span>
                         </span>

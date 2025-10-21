@@ -118,6 +118,14 @@ CREATE TABLE IF NOT EXISTS approval(
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS notification(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    notification_id TEXT NOT NULL,
+    body JSONB NOT NULL,
+    is_opened BOOLEAN DEFAULT FALSE,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 
 -- Values
 INSERT INTO auth (user_id, username, password) 

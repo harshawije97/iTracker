@@ -50,6 +50,25 @@ function navigateBack() {
   window.history.back();
 }
 
+function navigateParent(url) {
+  window.location.href = url;
+}
+
 const settingsClicked = () => {
   alert("Settings clicked!");
 };
+
+function resetForm() {
+  event.preventDefault();
+
+  var form = document.getElementById("incidentUpdateForm");
+  form.reset();
+
+  const fileInput = document.getElementById("fileInput");
+  if (fileInput) fileInput.value = "";
+
+  const textarea = form.querySelector("textarea[name='description']");
+  if (textarea) textarea.value = "";
+
+  alert("Form has been reset successfully!");
+}

@@ -60,14 +60,17 @@ if (!$sessionUser) {
                             <div class="form-value">User Role</div>
                         </div>
                         <div class="button-group">
-                            <button class="btn btn-accept">Accept</button>
+                            <button
+                                type="button"
+                                class="btn btn-accept"
+                                onclick="()=>console.log('Working')">Accept</button>
                             <button class="btn btn-reject">Reject</button>
                         </div>
                     </section>
 
                     <div class="divider"></div>
 
-                    <div class="password-section">
+                    <div class="password-section" id="password-section">
                         <h2 class="password-title">Create Password</h2>
                         <p class="password-description">Once the user logged in he/she have to change the Password to a new one</p>
 
