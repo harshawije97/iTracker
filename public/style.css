@@ -42,6 +42,58 @@ body {
   color: #000;
 }
 
+.btn {
+  flex: 1;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-accept {
+  background-color: #00c853;
+  color: white;
+}
+
+.btn-accept:hover {
+  background-color: #00b347;
+}
+
+.btn-reject {
+  background-color: #ff3b30;
+  color: white;
+}
+
+.btn-reject:hover {
+  background-color: #e63028;
+}
+
+.divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 32px 0;
+}
+
+.password-section {
+  margin-top: 32px;
+}
+
+.password-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 12px;
+}
+
+.password-description {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
 .px-4 {
   padding: 18px 20px;
   margin-top: 2rem;

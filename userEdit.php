@@ -28,61 +28,55 @@ if (!$sessionUser) {
             <div class="container">
                 <div class="px-16 w-full">
                     <div class="page-header">
-                        <p class="breadcrumb">User</p>
-                        <h2 class="page-title">User Info</h2>
+                        <p class="breadcrumb">Request Access</p>
+                        <h2 class="page-title">User Information</h2>
                     </div>
                     <section class="heading-wrapper">
                         <div class="page-header">
                             <p class="breadcrumb">Profile Information</p>
                         </div>
                         <div class="form-wrapper">
-                            <form>
-                                <div class="form-group">
-                                    <label for="first_name">First Name</label>
-                                    <input
-                                        type="text"
-                                        name="first_name"
-                                        class="form-input"
-                                        value="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="last_name">Last Name</label>
-                                    <input
-                                        type="text"
-                                        name="last_name"
-                                        class="form-input"
-                                        value=""
-                                        disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" name="email" class="form-input" value="" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="role">Role</label>
-                                    <input type="text" name="role" class="form-input" value="" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="estate_code">Estate</label>
-                                    <input type="text"
-                                        name="estate_code"
-                                        class="form-input"
-                                        value="">
-                                </div>
-                            </form>
-                        </div>
-                    </section>
-                    <section>
-                        <div class="page-header">
-                            <p class="breadcrumb">Profile Approval</p>
-                        </div>
-                        <form action="POST">
                             <div class="form-group">
-                                <label for="role">Role</label>
-                                <input type="text" name="role" class="form-input" value="" disabled>
+                                <label class="form-label">First Name</label>
+                                <div class="form-value">First Name</div>
                             </div>
-                        </form>
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <div class="form-value">Last Name</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <div class="form-value">Email Address</div>
+                            </div>
+                        </div>
+                        <div class="subsection-label">Plantation specific information</div>
+                        <!-- Estate Name -->
+                        <div class="form-group">
+                            <div class="form-value accent">Estate Name</div>
+                        </div>
+
+                        <!-- User Role -->
+                        <div class="form-group">
+                            <div class="form-value">User Role</div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-accept">Accept</button>
+                            <button class="btn btn-reject">Reject</button>
+                        </div>
                     </section>
+
+                    <div class="divider"></div>
+
+                    <div class="password-section">
+                        <h2 class="password-title">Create Password</h2>
+                        <p class="password-description">Once the user logged in he/she have to change the Password to a new one</p>
+
+                        <!-- Password Input -->
+                        <input type="text" class="form-input" placeholder="One time password">
+
+                        <!-- Send Invitation Button -->
+                        <button class="btn-full">Send Invitation</button>
+                    </div>
                 </div>
             </div>
         </main>
