@@ -100,12 +100,6 @@ function getSessionUser()
 // Register new user
 function registerNewUser(PDO $conn, $values)
 {
-    // CSRF Protection --> to protect against cross-site request forgery
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-            die('Invalid CSRF token');
-        }
-    }
 
     try {
         $query = "INSERT INTO users (first_name, last_name, email, estate_code, role, is_registered)
@@ -117,7 +111,7 @@ function registerNewUser(PDO $conn, $values)
         $stmt->bindParam(':email', $values['email'], PDO::PARAM_STR);
         $stmt->bindParam(':estate_code', $values['estate_code'], PDO::PARAM_STR);
         $stmt->bindParam(':role', $values['role'], PDO::PARAM_STR);
-        $stmt->bindParam(':is_registered', false, PDO::PARAM_BOOL);
+        $stmt->bindParam(':is_registered', $values['is_registered'], PDO::PARAM_BOOL);
 
         $stmt->execute();
 
@@ -141,4 +135,31 @@ function logout()
 
     session_unset();
     session_destroy();
+}
+
+function createAuthUser(PDO $conn, $values)
+{
+    $hashedPassword = hash('sha256', $values['password']);
+
+    try {
+        $sql = "INSERT INTO auth (user_id, username, password)
+                VALUES (:user_id, :username, :password)";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':user_id', $values['user_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':username', $values['username'], PDO::PARAM_STR);
+        $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            return [
+                'success' => true,
+                'message' => 'Auth user created successfully'
+            ]; // return new auth ID
+        } else {
+            return false;
+        }
+    } catch (PDOException $error) {
+        error_log("Error creating auth user: " . $error->getMessage());
+        return false;
+    }
 }

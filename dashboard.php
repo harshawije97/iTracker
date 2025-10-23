@@ -8,6 +8,8 @@ if (!$sessionUser) {
     exit;
 }
 
+// Get all tickets
+
 ?>
 
 <!DOCTYPE html>
@@ -37,19 +39,19 @@ if (!$sessionUser) {
                 <div class="cards-grid">
                     <div class="ticket-card all-tickets">
                         <div class="card-label">All Tickets</div>
-                        <div class="card-number">10</div>
+                        <div class="card-number">0</div>
                     </div>
                     <div class="ticket-card opened">
                         <div class="card-label">Opened</div>
-                        <div class="card-number">10</div>
+                        <div class="card-number">0</div>
                     </div>
                     <div class="ticket-card processing">
                         <div class="card-label">Processing</div>
-                        <div class="card-number">10</div>
+                        <div class="card-number">0</div>
                     </div>
                     <div class="ticket-card completed">
                         <div class="card-label">Completed</div>
-                        <div class="card-number">10</div>
+                        <div class="card-number">0</div>
                     </div>
                 </div>
                 <section class="summary-section">

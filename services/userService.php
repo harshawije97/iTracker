@@ -34,3 +34,40 @@ function getAllManagers(PDO $conn, bool $isHeadOfficeManager = false, array $fil
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }
+
+
+function getAllUsers(PDO $conn, int $userId)
+{
+    try {
+        $stmt = $conn->prepare("SELECT * FROM users WHERE id != :userId");
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get users: ' . $error->getMessage()
+        ];
+    }
+}
+
+function getUserById(PDO $conn, int $id)
+{
+    try {
+        $query = $conn->prepare("SELECT * FROM users WHERE id = :id");
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        $query->execute();
+        return [
+            'success' => true,
+            'data' => $query->fetch(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get user: ' . $error->getMessage()
+        ];
+    }
+}

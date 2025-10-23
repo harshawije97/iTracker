@@ -28,15 +28,15 @@
          <li class="sidebar-item">
              <a href="./inventory.php" class="sidebar-link">
                  <svg xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="lucide lucide-archive-icon lucide-archive">
+                     width="20"
+                     height="20"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     class="lucide lucide-archive-icon lucide-archive">
                      <rect width="20" height="5" x="2" y="3" rx="1" />
                      <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8" />
                      <path d="M10 12h4" />
@@ -70,9 +70,13 @@
          <?php } ?>
      </ul>
      <div class="sidebar-footer">
-         <div class="user-box">
-             <div class="user-avatar"></div>
-             <span>Full Name</span>
-         </div>
+         <form action="">
+             <div class="user-box">
+                 <div class="user-avatar"></div>
+                 <button>
+                     <span>Logout</span>
+                 </button>
+             </div>
+         </form>
      </div>
  </aside>

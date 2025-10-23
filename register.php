@@ -11,10 +11,6 @@ $estates = $response['data'];
 
 <?php
 
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $values = [
         'first_name' => $_POST['first_name'],
@@ -22,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'email' => $_POST['email'],
         'estate_code' => $_POST['estate_code'],
         'role' => $_POST['role'],
+        'is_registered' => $_POST['is_registered'],
     ];
 
     // Register new user as a request accessed user
@@ -29,8 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($response['success']) {
         $_SESSION['success_message'] = $response['message'];
-        header('Location: ' . $_SERVER['PHP_SELF']);
-        exit;
+        echo "<script>
+                window.location.href = './confirmationPage.php';
+              </script>";
     } else {
         $_SESSION['error_message'] = $response['message'];
         header('Location: ' . $_SERVER['PHP_SELF']);
@@ -180,6 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+    <?php include_once './components/sweetAlert.php'; ?>
     <section class="base flex-container">
         <div class="login-container">
             <div class="brand">iTracker</div>
@@ -189,6 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </p>
 
             <form method="POST">
+                <input type="hidden" name="is_registered" value="0">
                 <div class="form-group">
                     <input type="text" name="first_name" class="form-input" placeholder="First Name" required>
                 </div>

@@ -120,30 +120,27 @@ CREATE TABLE IF NOT EXISTS approval(
 
 CREATE TABLE IF NOT EXISTS notification(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    notification_id TEXT NOT NULL,
-    body JSONB NOT NULL,
+    notification_id VARCHAR(255) NOT NULL,
+    body JSON NOT NULL,
     is_opened BOOLEAN DEFAULT FALSE,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+
+    INDEX (notification_id),
+    INDEX (is_opened)
 );
 
 
 -- Values
 INSERT INTO auth (user_id, username, password) 
 VALUES 
-    (1, 'samantha.perera@bogestate.lk', SHA2('Samantha@2024', 256)),
-    (2, 'rajesh.fernando@bogestate.lk', SHA2('Rajesh@2024', 256)),
-    (3, 'dinesh.silva@headoffice.lk', SHA2('Dinesh@2024', 256)),
-    (4, 'nishani.jayawardena@headoffice.lk', SHA2('Nishani@2024', 256)),
-    (5, 'kamal.wijesinghe@headoffice.lk', SHA2('Kamal@2024', 256));
+    (1, 'buddika@bogestate.lk', SHA2('password@123', 256)),
+    (2, 'jayawijesinghe@gmail.com', SHA2('admin@123', 256))
 
 -- Users
 INSERT INTO users (first_name, last_name, email, estate_code, role, is_registered) 
 VALUES
-    ('Samantha', 'Perera', 'samantha.perera@bogestate.lk', 'KOT', 'chief-clerk', TRUE),
-    ('Rajesh', 'Fernando', 'rajesh.fernando@bogestate.lk', 'KOT', 'estate-manager', TRUE),
-    ('Dinesh', 'Silva', 'dinesh.silva@headoffice.lk', NULL, 'it-manager', TRUE),
-    ('Nishani', 'Jayawardena', 'nishani.jayawardena@headoffice.lk', NULL, 'assistant-it-manager', TRUE),
-    ('Kamal', 'Wijesinghe', 'kamal.wijesinghe@headoffice.lk', NULL, 'it-admin', TRUE);
+    ('Buddika', 'Siriwardana', 'buddika@bogestate.lk', 'NOR', 'chief-clerk', TRUE),
+    ('Jayatha', 'Wijesinghe', 'jayawijesinghe@gmail.com', NULL, 'it-manager', TRUE)
 
 INSERT INTO estates (estate_code, estate_name) 
 VALUES 
