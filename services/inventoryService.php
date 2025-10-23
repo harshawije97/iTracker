@@ -81,3 +81,12 @@ function getInventoryItemsByEstateCode(PDO $conn, string $estateCode)
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+// Archive item
+function archiveItem(PDO $conn, int $itemId)
+{
+    $stmt = $conn->prepare("UPDATE inventory SET is_archived = :is_archived WHERE id = :itemId");
+    $stmt->bindParam(':itemStatus', ItemStatus::ARCHIVED->value, PDO::PARAM_STR);
+    $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
+    $stmt->execute();
+}

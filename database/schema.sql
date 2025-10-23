@@ -55,6 +55,9 @@ CREATE INDEX idx_inventory_category ON inventory(category);
 ALTER TABLE inventory 
 ADD COLUMN is_head_office BOOLEAN DEFAULT FALSE;
 
+ALTER TABLE inventory
+ADD COLUMN is_archived BOOLEAN DEFAULT FALSE;
+
 ALTER TABLE inventory 
 MODIFY COLUMN item_status ENUM('in stock', 'on repair') NOT NULL;
 

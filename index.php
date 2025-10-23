@@ -1,3 +1,26 @@
+<?php include_once './services/auth.php'; ?>
+
+<?php
+$message = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+
+    $result = login($username, $password);
+
+    if ($result['success']) {
+        // Redirect after successful login
+        echo "<script>
+                    window.location.href = './dashboard.php';
+                  </script>";
+        exit;
+    } else {
+        $message = $result['message'];
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,40 +32,17 @@
 </head>
 
 <body>
-    <?php
-    include_once './services/auth.php'; ?>
-
-    <?php
-    $message = '';
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = trim($_POST['username']);
-        $password = trim($_POST['password']);
-
-        $result = login($username, $password);
-
-        if ($result['success']) {
-            // Redirect after successful login
-            echo "<script>
-                    window.location.href = './dashboard.php';
-                  </script>";
-            exit;
-        } else {
-            $message = $result['message'];
-        }
-    }
-    ?>
     <section class="base flex-container">
         <div class="login-container">
             <div class="app-name">iTracker</div>
             <h1 class="heading">Sign In</h1>
-            <div class="error-message-container">
-                <?php if (!empty($message)): ?>
+            <?php if (!empty($message)): ?>
+                <div class="error-message-container">
                     <p class="error-message">
                         <?= htmlspecialchars($message) ?>
                     </p>
-                <?php endif; ?>
-            </div>
+                </div>
+            <?php endif; ?>
             <form method="POST">
                 <div class="form-group">
                     <input

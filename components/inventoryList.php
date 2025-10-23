@@ -8,6 +8,7 @@
 
     $inventory = getInventoryItemsByUserId($conn, $sessionUser['user_id']);
 
+
     if (!empty($inventory)) {
         foreach ($inventory as $item) {
     ?>

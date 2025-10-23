@@ -19,7 +19,8 @@ if (!$sessionUser) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iTracker - Dashboard</title>
-    <?php include_once './shared/links.php' ?>
+    <?php include_once './shared/links.php'; ?>
+    <?php include_once './shared/functions.php'; ?>
 </head>
 
 <body>
@@ -65,92 +66,7 @@ if (!$sessionUser) {
                             <option>Last Year</option>
                         </select>
                     </div>
-                    <div class="chart-container">
-                        <div class="chart">
-                            <div class="chart-bar">
-                                <div class="bar-group">
-                                    <div class="bar in-store" style="height: 80px;"></div>
-                                    <div class="bar online" style="height: 60px;"></div>
-                                </div>
-                                <div class="chart-label">Jan</div>
-                            </div>
-                            <div class="chart-bar">
-                                <div class="bar-group">
-                                    <div class="bar in-store" style="height: 100px;"></div>
-                                    <div class="bar online" style="height: 70px;"></div>
-                                </div>
-                                <div class="chart-label">Mar</div>
-                            </div>
-                            <div class="chart-bar">
-                                <div class="bar-group">
-                                    <div class="bar in-store" style="height: 120px;"></div>
-                                    <div class="bar online" style="height: 85px;"></div>
-                                </div>
-                                <div class="chart-label">Apr</div>
-                            </div>
-                            <div class="chart-bar">
-                                <div class="bar-group">
-                                    <div class="bar in-store" style="height: 65px;"></div>
-                                    <div class="bar online" style="height: 50px;"></div>
-                                </div>
-                                <div class="chart-label">May</div>
-                            </div>
-                            <div class="chart-bar">
-                                <div class="bar-group">
-                                    <div class="bar in-store" style="height: 95px;"></div>
-                                    <div class="bar online" style="height: 75px;"></div>
-                                </div>
-                                <div class="chart-label">Jun</div>
-                            </div>
-                            <div class="chart-bar">
-                                <div class="bar-group">
-                                    <div class="bar in-store" style="height: 110px;"></div>
-                                    <div class="bar online" style="height: 80px;"></div>
-                                </div>
-                                <div class="chart-label">Aug</div>
-                            </div>
-                            <div class="chart-bar">
-                                <div class="bar-group">
-                                    <div class="bar in-store" style="height: 55px;"></div>
-                                    <div class="bar online" style="height: 40px;"></div>
-                                </div>
-                                <div class="chart-label">Sep</div>
-                            </div>
-                            <div class="chart-bar">
-                                <div class="bar-group">
-                                    <div class="bar in-store" style="height: 75px;"></div>
-                                    <div class="bar online" style="height: 130px;"></div>
-                                </div>
-                                <div class="chart-label">Sep</div>
-                            </div>
-                            <div class="chart-bar">
-                                <div class="bar-group">
-                                    <div class="bar in-store" style="height: 90px;"></div>
-                                    <div class="bar online" style="height: 65px;"></div>
-                                </div>
-                                <div class="chart-label">Oct</div>
-                            </div>
-                            <div class="chart-bar">
-                                <div class="bar-group">
-                                    <div class="bar in-store" style="height: 85px;"></div>
-                                    <div class="bar online" style="height: 60px;"></div>
-                                </div>
-                                <div class="chart-label">Nov</div>
-                            </div>
-                        </div>
-
-                        Legend
-                        <div class="chart-legend">
-                            <div class="legend-item">
-                                <div class="legend-color in-store"></div>
-                                <span>In-store</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color online"></div>
-                                <span>Online</span>
-                            </div>
-                        </div>
-                    </div>
+                    <?php include_once './components/chartDashboard.php'; ?>
                 </section>
             </div>
         </main>

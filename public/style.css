@@ -491,10 +491,11 @@ body {
 }
 
 .chart {
+  width: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  height: 180px;
+  height: max-content;
   margin-bottom: 16px;
   gap: 8px;
 }
@@ -873,9 +874,9 @@ span.badge-yellow {
 }
 
 .incident-title {
-  font-size: 32px;
+  font-size: 18.5px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .badge-priority {
@@ -968,8 +969,7 @@ span.badge-yellow {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: #065f46;
-  border: 2.5px solid #007a55;
+  background-color: transparent;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -1706,4 +1706,73 @@ input[type="checkbox"] {
   width: auto;
   border-radius: 15px;
   padding: 2px 6px;
+}
+
+/* Simple User Card (Request Access) */
+.simple-card {
+  background-color: #f5f5f5;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.simple-card-left {
+  flex: 1;
+}
+
+.simple-card h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.simple-card-email {
+  font-size: 0.875rem;
+  color: #999;
+  margin-bottom: 0.75rem;
+}
+
+.simple-card-right {
+  text-align: right;
+}
+
+.simple-card-date {
+  font-size: 0.75rem;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.simple-badge {
+  display: inline-block;
+  background-color: #ffd966;
+  color: #333;
+  padding: 0.375rem 0.875rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Request Access Section */
+.request-access-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.request-access-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.request-count {
+  font-size: 1.25rem;
+  color: #999;
+  font-weight: 600;
 }
