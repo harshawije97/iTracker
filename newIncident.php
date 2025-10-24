@@ -16,7 +16,8 @@ if (!$sessionUser) {
 }
 
 // Get all inventory items by estate code
-$inventoryItems = getInventoryOnStoreItemsByEstateCode($conn, $sessionUser['estate_code']);
+$response = getInventoryOnStoreItemsByEstateCode($conn, $sessionUser['estate_code']);
+$inventory = $response['data'];
 
 // Get all managers
 $headOfficeManagers = getAllManagers($conn, true, ['first_name', 'last_name', 'email']);
@@ -94,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="form-group">
                             <select class="select-field" name="inventory_id" required>
                                 <option disabled selected>Select Inventory Item</option>
-                                <?php foreach ($inventoryItems as $item) {
+                                <?php foreach ($inventory as $item) {
                                 ?>
                                     <option value="<?= $item['id'] ?>">
                                         <?= htmlspecialchars($item['serial_number']) ?>

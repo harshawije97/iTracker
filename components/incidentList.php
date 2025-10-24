@@ -76,7 +76,8 @@ if ($isManager) {
                             <?= htmlspecialchars($incident['priority']) ?>
                         </span>
                     <?php } ?>
-                    <p>
+                    <p class="estate-code-status">
+                        Estate Code
                         <?= htmlspecialchars($incident['estate_code']); ?>
                     </p>
                 </div>

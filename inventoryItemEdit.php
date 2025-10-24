@@ -16,7 +16,9 @@ $id = $_GET['id'] ?? null;
 $incident_code = $_GET['serial_number'] ?? null;
 
 // Get inventory item by inventory id
-$inventoryItem = getInventoryItemById($conn, $id);
+$response = getInventoryItemById($conn, $id);
+$inventoryItem = $response['data'];
+
 if (!$inventoryItem) {
     header('Location: inventory.php');
     exit;

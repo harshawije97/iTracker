@@ -15,12 +15,12 @@ $id = $_GET['id'] ?? null;
 $serial_number = $_GET['serial_number'] ?? null;
 
 // get inventory item by inventory id
-$inventoryItem = getInventoryItemById($conn, $id);
-if (!$inventoryItem) {
+$response = getInventoryItemById($conn, $id);
+if (!$response) {
     header('Location: inventory.php');
     exit;
 }
-
+$inventoryItem = $response['data'];
 
 ?>
 
@@ -89,16 +89,6 @@ if (!$inventoryItem) {
             </div>
         </main>
     </section>
-
-    <script>
-        function navigateBack() {
-            window.history.back();
-        }
-
-        function settingsClicked() {
-            alert("Settings clicked!");
-        }
-    </script>
 </body>
 
 </html>

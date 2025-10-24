@@ -13,9 +13,6 @@
         $inventory = $response['data'];
     }
 
-
-
-
     if (!empty($inventory)) {
         foreach ($inventory as $item) {
     ?>

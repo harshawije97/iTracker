@@ -234,3 +234,22 @@ function getIncidentByCode(PDO $conn, $incidentCode)
         ];
     }
 }
+
+// Search by keywords
+function searchByIncidentKeywords(PDO $conn, string $keywords) {
+    try {
+        $stmt = $conn->prepare("SELECT * FROM incidents WHERE title LIKE :keywords OR description LIKE :keywords");
+        $stmt->bindValue(':keywords', '%' . $keywords . '%', PDO::PARAM_STR);
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+        
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get incidents: ' . $error->getMessage()
+        ];
+    }
+}
