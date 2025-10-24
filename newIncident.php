@@ -16,7 +16,7 @@ if (!$sessionUser) {
 }
 
 // Get all inventory items by estate code
-$inventoryItems = getInventoryItemsByEstateCode($conn, $sessionUser['estate_code']);
+$inventoryItems = getInventoryOnStoreItemsByEstateCode($conn, $sessionUser['estate_code']);
 
 // Get all managers
 $headOfficeManagers = getAllManagers($conn, true, ['first_name', 'last_name', 'email']);
@@ -36,10 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'title' => $_POST['title'],
         'inventory_id' => $_POST['inventory_id'],
         'description' => $_POST['description'] ?? null,
-        'image' => $_FILES['image'] ?? null,
         'priority' => $_POST['priority'],
         'manager_email' => $_POST['manager_email'],
-        'is_archived' => false,
         'user_id' => $sessionUser['user_id'],
         'estate_code' => $sessionUser['estate_code']
     ];
@@ -49,12 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($response['success']) {
         $_SESSION['success_message'] = $response['message'];
-        header('Location: ' . $_SERVER['PHP_SELF']);
-        exit;
+
+        $successAndRedirect = true;
     } else {
         $_SESSION['error_message'] = $response['message'];
-        header('Location: ' . $_SERVER['PHP_SELF']);
-        exit;
+
+        $successAndRedirect = false;
     }
 }
 
@@ -90,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form method="POST">
                         <input type="hidden" name="incident_code" value="<?= $key ?>">
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
+
                         <div class="form-group">
                             <input type="text" class="input-field" name="title" placeholder="Title" required>
                         </div>
@@ -130,9 +129,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="form-group">
                             <select class="priority-dropdown" name="priority" required>
                                 <option disabled selected>Select Priority</option>
-                                <option value="low">Low</option>
-                                <option value="moderate">Moderate</option>
-                                <option value="high">High</option>
+                                <option value="Low">Low</option>
+                                <option value="Moderate">Moderate</option>
+                                <option value="High">High</option>
                             </select>
                         </div>
 
@@ -146,6 +145,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <?php } ?>
                             </select>
                         </div>
+
+                        <input
+                            type="hidden"
+                            name="is_archived"
+                            value="0">
 
                         <button type="submit" class="btn-primary">Save Incident</button>
                     </form>

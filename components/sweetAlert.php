@@ -1,29 +1,35 @@
 <?php
 if (isset($_SESSION['error_message'])): ?>
     <div>
+        <?php isset($successAndRedirect); ?>
         <script>
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
                 text: '<?php echo htmlspecialchars($_SESSION['error_message']); ?>',
-                showConfirmButton: false,
-                timer: 3000
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = './inventory.php';
             });
+            <?php unset($_SESSION['success_message']); ?>
         </script>
         <?php unset($_SESSION['error_message']); ?>
     </div>
 <?php endif;
+
 if (isset($_SESSION['success_message'])): ?>
     <div>
+        <?php isset($successAndRedirect); ?>
         <script>
             Swal.fire({
                 icon: 'success',
                 title: 'Success',
                 text: '<?php echo htmlspecialchars($_SESSION['success_message']); ?>',
-                showConfirmButton: false,
-                timer: 3000
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = './inventory.php';
             });
         </script>
         <?php unset($_SESSION['success_message']); ?>
     <?php endif;
-?>
+    ?>

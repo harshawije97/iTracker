@@ -6,7 +6,7 @@
 
     $sessionUser = getSessionUser();
 
-    $inventory = getInventoryItemsByUserId($conn, $sessionUser['user_id']);
+    $inventory = getAllItemsByEstateCode($conn, $sessionUser['estate_code']);
 
 
     if (!empty($inventory)) {

@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $response = saveInventoryItem($conn, $values);
     if ($response['success']) {
         $_SESSION['success_message'] = $result['message'];
-        header('Location: ' . $_SERVER['PHP_SELF']); // Prevent the resubmission of the form
+        header('Location: ' . $_SERVER['PHP_SELF']);
         exit;
     } else {
         $_SESSION['error_message'] = $response['message'];

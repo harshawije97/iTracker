@@ -75,8 +75,8 @@ function saveIncident(PDO $conn, $values)
     }
 
     try {
-        $query = "INSERT INTO incidents (incident_code, title, inventory_id, description, image, priority, manager_email, is_archived, user_id, estate_code)
-            VALUES (:incident_code, :title, :inventory_id, :description, :image, :priority, :manager_email, :is_archived, :user_id, :estate_code)";
+        $query = "INSERT INTO incidents (incident_code, title, inventory_id, description, image, priority, manager_email, user_id, estate_code)
+            VALUES (:incident_code, :title, :inventory_id, :description, :image, :priority, :manager_email, :user_id, :estate_code)";
 
         $stmt = $conn->prepare($query);
 
@@ -87,9 +87,17 @@ function saveIncident(PDO $conn, $values)
         $stmt->bindValue(':image', $imageData, PDO::PARAM_LOB);
         $stmt->bindValue(':priority', $values['priority'], PDO::PARAM_STR);
         $stmt->bindValue(':manager_email', $values['manager_email'], PDO::PARAM_STR);
-        $stmt->bindValue(':is_archived', $values['is_archived'], PDO::PARAM_BOOL);
         $stmt->bindValue(':user_id', $values['user_id'], PDO::PARAM_INT);
         $stmt->bindValue(':estate_code', $values['estate_code'], PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        // This action needs to move into a new functional context
+        $query = "UPDATE inventory SET item_status = :item_status WHERE id = :inventory_id";
+        $stmt = $conn->prepare($query);
+
+        $stmt->bindValue(':item_status', ItemStatus::ON_REPAIR->value, PDO::PARAM_STR);
+        $stmt->bindValue(':inventory_id', $values['inventory_id'], PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -97,29 +105,11 @@ function saveIncident(PDO $conn, $values)
             'success' => true,
             'message' => 'Incident created successfully'
         ];
+
     } catch (PDOException $error) {
         return [
             'success' => false,
             'message' => 'Failed to create incident: ' . $error->getMessage()
-        ];
-    }
-}
-
-// Get incident by incidentCode
-function getIncidentByCode(PDO $conn, $incidentCode)
-{
-    try {
-        $stmt = $conn->prepare("SELECT * FROM incidents WHERE incident_code = :incident_code");
-        $stmt->bindParam(':incident_code', $incidentCode);
-        $stmt->execute();
-        return [
-            'success' => true,
-            'data' => $stmt->fetch(PDO::FETCH_ASSOC)
-        ];
-    } catch (PDOException $error) {
-        return [
-            'success' => false,
-            'message' => 'Failed to get incident: ' . $error->getMessage()
         ];
     }
 }
@@ -160,6 +150,25 @@ function updateIncident(PDO $conn, $values)
         return [
             'success' => false,
             'message' => 'Failed to update incident: ' . $error->getMessage()
+        ];
+    }
+}
+
+// Get incident by incidentCode
+function getIncidentByCode(PDO $conn, $incidentCode)
+{
+    try {
+        $stmt = $conn->prepare("SELECT * FROM incidents WHERE incident_code = :incident_code");
+        $stmt->bindParam(':incident_code', $incidentCode);
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetch(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get incident: ' . $error->getMessage()
         ];
     }
 }

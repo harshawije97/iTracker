@@ -46,11 +46,7 @@ $incident = $response['data'];
         <div class="main-content">
             <div class="container">
                 <div class="px-16 w-full">
-                    <div class="title-section">
-                        <div class="browse-text">Update</div>
-                        <div class="title-row">
-                            <span class="badge">Incident No: <?= htmlspecialchars($incident_code) ?></span>
-                        </div>
+                    <div class="title-section-wrapper">
                         <div class="profile-section">
                             <div class="created-by">
                                 <div class="avatar">
@@ -66,6 +62,9 @@ $incident = $response['data'];
                                     <?= htmlspecialchars($incident['estate_code']) ?>
                                 </span>
                             </div>
+                        </div>
+                        <div class="title-row">
+                            <span class="badge">Incident No: <?= htmlspecialchars($incident_code) ?></span>
                         </div>
                     </div>
 

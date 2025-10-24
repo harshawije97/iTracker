@@ -958,6 +958,14 @@ span.badge-yellow {
   }
 }
 
+.title-section-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
 .created-by {
   display: flex;
   align-items: center;
