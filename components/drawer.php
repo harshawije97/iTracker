@@ -11,6 +11,8 @@ $serial_number = $_GET['serial_number'] ?? null;
 
 if ($incident_code) {
     $response = getIncidentHistoryById($conn, $id);
+    $data = $response['data'];
+    // var_dump($data);
 
     if ($response['success']) {
         $incidentHistory = $response['data'];
@@ -48,10 +50,10 @@ if ($incident_code) {
                     <?php
                     foreach ($incidentHistory as $incident) {
                         echo '<li>';
-                        echo '<a href="./incident.php?id=' . $incident['id'] . '&incident_code=' . $incident['incident_code'] . '" class="hover-underline">';
                         echo '<h3 class="incident-title-sm">' . htmlspecialchars($incident['title']) . '</h3>';
-                        echo '<span class="incident-date">' . htmlspecialchars(date('Y-m-d', strtotime($incident['created_at']))) . '</span>';
-                        echo '</a>';
+                        echo '<span class="incident-date">' . htmlspecialchars(date('Y-m-d', strtotime($incident['incident_created_at']))) . '</span>';
+                        echo '<div class="incident-date">' . htmlspecialchars($incident['update_description']) . '</div>';
+                        echo '<div class="incident-date">' . htmlspecialchars($incident['status']) . '</div>';
                         echo '</li>';
                     }
                     ?>

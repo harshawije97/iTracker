@@ -44,8 +44,32 @@ function createIncidentProcess(PDO $conn, $values)
 function getIncidentHistoryById(PDO $conn, $id)
 {
     try {
-        $stmt = $conn->prepare("SELECT * FROM incident_updates WHERE incident_id = :incident_id");
-        $stmt->bindParam(':incident_id', $id);
+        $stmt = $conn->prepare("
+            SELECT 
+                i.id,
+                i.incident_code,
+                i.title,
+                i.inventory_id,
+                i.description AS incident_description,
+                i.priority,
+                i.manager_email,
+                i.is_archived,
+                i.user_id AS incident_creator_id,
+                i.estate_code,
+                i.created_at AS incident_created_at,
+                iu.id AS update_id,
+                iu.status,
+                iu.description AS update_description,
+                iu.user_id AS update_user_id,
+                iu.created_at AS update_created_at,
+                iu.updated_on
+            FROM incidents i
+            LEFT JOIN incident_updates iu ON i.id = iu.incident_id
+            WHERE i.id = :incident_id
+            ORDER BY iu.created_at DESC
+        ");
+
+        $stmt->bindParam(':incident_id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
         return [
@@ -53,7 +77,6 @@ function getIncidentHistoryById(PDO $conn, $id)
             'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
         ];
     } catch (PDOException $error) {
-
         return [
             'success' => false,
             'data' => 'Failed to get incident history: ' . $error->getMessage()
