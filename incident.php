@@ -12,7 +12,6 @@ if (!$sessionUser) {
 }
 
 $isManager = str_ends_with($sessionUser['role'], 'manager');
-// var_dump($sessionUser['role']);
 
 // get search parameters
 $id = $_GET['id'] ?? null;
@@ -26,7 +25,6 @@ if (!$response['success']) {
 }
 
 $incident = $response['data'];
-// var_dump($incident);
 ?>
 
 <!DOCTYPE html>
@@ -53,14 +51,21 @@ $incident = $response['data'];
                                     IE
                                 </div>
                             </div>
-                            <div class="profile-info">
-                                <span class="first-name">First Name</span>
-                                <span class="badge badge-priority">
-                                    <?= htmlspecialchars($incident['priority']) ?>
+                            <div class="profile-information-tab">
+                                <span class="first-name">
+                                    <?= htmlspecialchars($sessionUser['first_name']) ?>
                                 </span>
-                                <span class="badge badge-estate">
-                                    <?= htmlspecialchars($incident['estate_code']) ?>
+                                <span class="first-name">
+                                    <?= htmlspecialchars($sessionUser['last_name']) ?>
                                 </span>
+                                <div class="profile-info-wrapper">
+                                    <span class="badge badge-priority">
+                                        <?= htmlspecialchars($incident['priority']) ?>
+                                    </span>
+                                    <span class="badge badge-estate">
+                                        <?= htmlspecialchars($incident['estate_code']) ?>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="title-row">
@@ -74,8 +79,8 @@ $incident = $response['data'];
                         </h1>
                     </section>
 
-                    <div class="description-section">
-                        <h2 class="description-title">Description</h2>
+                    <div class="description-section mt-2">
+                        <h2 class="description-title title-sm">Description</h2>
                         <p class="description-text">
                             <?= htmlspecialchars($incident['description']) ?>
                         </p>
@@ -101,10 +106,11 @@ $incident = $response['data'];
                                 <h3><?= htmlspecialchars($incident['manager_email']) ?></h3>
                             </section>
                             <section>
-                                <button type="button" class="btn btn-success">
+                                <button type="button" class="btn btn-success" onclick="openSheet()">
                                     View Activity
                                 </button>
                             </section>
+                            <?php include_once './components/drawer.php'; ?>
                         </div>
                 </div>
                 <?php

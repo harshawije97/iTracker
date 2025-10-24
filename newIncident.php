@@ -47,11 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($response['success']) {
         $_SESSION['success_message'] = $response['message'];
-
         $successAndRedirect = true;
     } else {
         $_SESSION['error_message'] = $response['message'];
-
         $successAndRedirect = false;
     }
 }
@@ -85,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </span>
                         </div>
                     </div>
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="incident_code" value="<?= $key ?>">
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
 

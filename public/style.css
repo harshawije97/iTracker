@@ -958,6 +958,39 @@ span.badge-yellow {
   }
 }
 
+.mt-2 {
+  margin-top: 24px;
+}
+
+.profile-information-tab {
+  padding: 12px 0px;
+}
+
+.profile-info-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.title-sm {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  margin-bottom: 5px !important;
+}
+
+.activity-section {
+  padding: 0 16.5px;
+}
+
+.more-information {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 30px;
+}
+
 .title-section-wrapper {
   width: 100%;
   display: flex;
@@ -1783,4 +1816,113 @@ input[type="checkbox"] {
   font-size: 1.25rem;
   color: #999;
   font-weight: 600;
+}
+
+/* drawer styles */
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 49;
+}
+
+.sheet-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sheet {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100%;
+  max-width: 512px;
+  background-color: white;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sheet.open {
+  transform: translateX(0);
+}
+
+.sheet-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sheet-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #000;
+}
+
+.sheet-description {
+  font-size: 0.875rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.sheet-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.sheet-close:hover {
+  color: #000;
+}
+
+.sheet-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Sheet Content */
+.sheet-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+/* Sheet Footer */
+.sheet-footer {
+  padding: 1.5rem;
+  border-top: 1px solid #e5e5e5;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .sheet {
+    max-width: 100%;
+  }
+
+  .sheet-footer {
+    flex-direction: column-reverse;
+  }
+
+  .button {
+    width: 100%;
+  }
 }
