@@ -9,7 +9,7 @@ if (isset($_SESSION['error_message'])): ?>
                 text: '<?php echo htmlspecialchars($_SESSION['error_message']); ?>',
                 confirmButtonText: 'OK'
             }).then(() => {
-                window.location.href = './inventory.php';
+                window.location.href = './dashboard.php';
             });
             <?php unset($_SESSION['success_message']); ?>
         </script>
@@ -27,7 +27,7 @@ if (isset($_SESSION['success_message'])): ?>
                 text: '<?php echo htmlspecialchars($_SESSION['success_message']); ?>',
                 confirmButtonText: 'OK'
             }).then(() => {
-                window.location.href = './inventory.php';
+                window.location.href = './dashboard.php';
             });
         </script>
         <?php unset($_SESSION['success_message']); ?>

@@ -16,7 +16,6 @@ $id = $_GET['id'] ?? null;
 
 $response = getUserById($conn, $id);
 $userInformation = $response['data'];
-
 ?>
 
 <?php
@@ -27,17 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'user_id' => $userInformation['id']
     ];
 
-    // Save the auth user
+    // $updateUser = updateRegistrationStatusByUserID($conn, $id, $userInformation['is_registered']);
     $response = createAuthUser($conn, $values);
 
     if ($response['success']) {
         $_SESSION['success_message'] = $response['message'];
-        header('Location: ' . $_SERVER['PHP_SELF']);
-        exit;
     } else {
         $_SESSION['error_message'] = $response['message'];
-        header('Location: ' . $_SERVER['PHP_SELF']);
-        exit;
     }
 }
 ?>
@@ -101,13 +96,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="form-value">
                                 <?= htmlspecialchars($userInformation['role']) ?>
                             </div>
-                        </div>
-                        <div class="button-group">
-                            <button
-                                type="button"
-                                class="btn btn-accept"
-                                onclick="acceptUser()">Accept</button>
-                            <button class="btn btn-reject">Reject</button>
                         </div>
                     </section>
 

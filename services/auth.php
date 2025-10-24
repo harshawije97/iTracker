@@ -125,6 +125,14 @@ function createAuthUser(PDO $conn, $values)
         $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
+            $sql = "UPDATE users SET is_registered = :isRegistered WHERE id = :id";
+            $stmt = $conn->prepare($sql);
+
+            $stmt->bindValue(':isRegistered', true, PDO::PARAM_BOOL);
+            $stmt->bindParam(':id', $values['user_id'], PDO::PARAM_INT);
+
+            $stmt->execute();
+            
             return [
                 'success' => true,
                 'message' => 'Auth user created successfully'

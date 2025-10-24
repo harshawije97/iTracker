@@ -2,6 +2,7 @@
 include_once './services/estateService.php';
 include_once './database/connection.php';
 include_once './services/auth.php';
+include_once './services/userService.php';
 ?>
 
 <?php
@@ -16,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'first_name' => $_POST['first_name'],
         'last_name' => $_POST['last_name'],
         'email' => $_POST['email'],
-        'estate_code' => $_POST['estate_code'],
+        'estate_code' => $_POST['estate_code'] ?? null,
         'role' => $_POST['role'],
         'is_registered' => $_POST['is_registered'],
     ];
@@ -31,8 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </script>";
     } else {
         $_SESSION['error_message'] = $response['message'];
-        header('Location: ' . $_SERVER['PHP_SELF']);
-        exit;
     }
 }
 

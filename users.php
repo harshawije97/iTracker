@@ -190,54 +190,78 @@ $data = $users['data'];
                 <!-- Registred Users -->
                 <section class="container-wrapper">
                     <h2 class="section-title" style="font-size: 1.25rem; margin-top: 2rem; margin-bottom: 1.5rem;">Registered</h2>
-                    <div class="user-card">
-                        <div class="card-header">
-                            <div class="user-info">
-                                <div class="avatar">FN</div>
-                                <div class="user-details">
-                                    <h3>Full Name</h3>
-                                    <p class="user-email">username@gmail.com</p>
+                    <?php
+                    if (count($data) > 0) { ?>
+                        <?php foreach ($data as $key => $value) { ?>
+                            <?php
+                            if ($value['is_registered']) { ?>
+                                <div class="user-card">
+                                    <div class="card-header">
+                                        <div class="user-info">
+                                            <div class="avatar">FN</div>
+                                            <div class="user-details">
+                                                <a href="./userEdit.php?id=<?= $value['id'] ?>">
+                                                    <h3>
+                                                        <?= htmlspecialchars($value['first_name'] . ' ' . $value['last_name']) ?>
+                                                    </h3>
+                                                </a>
+                                                <p class="user-email">
+                                                    <?= htmlspecialchars($value['email']) ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="date-time">
+                                            <?= htmlspecialchars(date('Y-m-d', strtotime($value['created_at']))) ?>
+                                        </div>
+                                    </div>
+                                    <div class="card-badges">
+                                        <span class="badge badge-yellow">
+                                            <?= htmlspecialchars($value['role']) ?>
+                                        </span>
+                                        <span class="badge badge-green">
+                                            <?= htmlspecialchars($value['estate_code']) ?>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="date-time">Date & Time</div>
-                        </div>
-                        <div class="card-badges">
-                            <span class="badge badge-yellow">User Type</span>
-                            <span class="badge badge-green">Estate Name</span>
-                        </div>
-                    </div>
-                    <div class="user-card">
-                        <div class="card-header">
-                            <div class="user-info">
-                                <div class="avatar">FN</div>
-                                <div class="user-details">
-                                    <h3>Full Name</h3>
-                                    <p class="user-email">username@gmail.com</p>
-                                </div>
-                            </div>
-                            <div class="date-time">Date & Time</div>
-                        </div>
-                        <div class="card-badges">
-                            <span class="badge badge-yellow">User Type</span>
-                        </div>
-                    </div>
+                            <?php } ?>
+                        <?php } ?>
+                    <?php } ?>
                 </section>
                 <!-- Request Access -->
                 <section class="container-wrapper">
                     <div class="request-access-header">
                         <h2 class="request-access-title">Request Access</h2>
-                        <span class="request-count">12</span>
+
                     </div>
-                    <div class="simple-card mt-6">
-                        <div class="simple-card-left">
-                            <h4>Full Name</h4>
-                            <p class="simple-card-email">username@gmail.com</p>
-                        </div>
-                        <div class="simple-card-right">
-                            <div class="simple-card-date">Date & Time</div>
-                            <span class="simple-badge">User Type</span>
-                        </div>
-                    </div>
+
+                    <?php
+                    if (count($data) > 0) { ?>
+                        <?php foreach ($data as $key => $value) { ?>
+                            <?php
+                            if (!$value['is_registered']) { ?>
+                                <div class="simple-card mt-6">
+                                    <div class="simple-card-left">
+                                        <a href="./user.php?id=<?= $value['id'] ?>">
+                                            <h4>
+                                                <?= htmlspecialchars($value['first_name'] . ' ' . $value['last_name']) ?>
+                                            </h4>
+                                        </a>
+                                        <p class="simple-card-email">
+                                            <?= htmlspecialchars($value['email']) ?>
+                                        </p>
+                                    </div>
+                                    <div class="simple-card-right">
+                                        <div class="simple-card-date">
+                                            <?= htmlspecialchars(date('Y-m-d', strtotime($value['created_at']))) ?>
+                                        </div>
+                                        <span class="simple-badge">
+                                            <?= htmlspecialchars($value['role']) ?>
+                                        </span>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
+                    <?php } ?>
                 </section>
             </div>
         </div>

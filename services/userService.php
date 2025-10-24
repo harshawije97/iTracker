@@ -139,3 +139,24 @@ function updateRegisteredUserByUserID(PDO $conn, int $id, $values)
         ];
     }
 }
+
+function updateRegistrationStatusByUserID(PDO $conn, int $id, bool $isRegistered)
+{
+    try {
+        $query = "UPDATE users SET is_registered = :isRegistered WHERE id = :id";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':isRegistered', $isRegistered, PDO::PARAM_BOOL);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return [
+            'success' => true,
+            'message' => 'Registration status updated successfully'
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to update registration status: ' . $error->getMessage()
+        ];
+    }
+}
