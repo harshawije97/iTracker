@@ -17,13 +17,11 @@ if ($isManager) {
     $response = getIncidentsByUserId($conn, $sessionUser['user_id']);
 }
 
-// var_dump($response);
 ?>
 
 <div class="incidents-list">
     <?php if ($response['success'] && !empty($response['data'])) { ?>
         <?php foreach ($response['data'] as $incident) { ?>
-            <!-- $response['data'] is an array of incidents -->
             <div class="incident-item">
                 <div class="incident-content">
                     <div class="incident-header">
@@ -76,10 +74,13 @@ if ($isManager) {
                             <?= htmlspecialchars($incident['priority']) ?>
                         </span>
                     <?php } ?>
-                    <p class="estate-code-status">
-                        Estate Code
-                        <?= htmlspecialchars($incident['estate_code']); ?>
-                    </p>
+                    <?php
+                    if ($isManager) { ?>
+                        <div class="status-badge-green">
+                            Estate Code
+                            <?= htmlspecialchars($incident['estate_code']); ?>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
         <?php } ?>
