@@ -97,36 +97,6 @@ function getSessionUser()
     ];
 }
 
-// Register new user
-function registerNewUser(PDO $conn, $values)
-{
-
-    try {
-        $query = "INSERT INTO users (first_name, last_name, email, estate_code, role, is_registered)
-                VALUES (:first_name, :last_name, :email, :estate_code, :role, :is_registered)";
-
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':first_name', $values['first_name'], PDO::PARAM_STR);
-        $stmt->bindParam(':last_name', $values['last_name'], PDO::PARAM_STR);
-        $stmt->bindParam(':email', $values['email'], PDO::PARAM_STR);
-        $stmt->bindParam(':estate_code', $values['estate_code'], PDO::PARAM_STR);
-        $stmt->bindParam(':role', $values['role'], PDO::PARAM_STR);
-        $stmt->bindParam(':is_registered', $values['is_registered'], PDO::PARAM_BOOL);
-
-        $stmt->execute();
-
-        return [
-            'success' => true,
-            'message' => 'User registered successfully'
-        ];
-    } catch (PDOException $error) {
-        return [
-            'success' => false,
-            'message' => 'Failed to register user: ' . $error->getMessage()
-        ];
-    }
-}
-
 function logout()
 {
     if (session_status() === PHP_SESSION_NONE) {
@@ -135,7 +105,11 @@ function logout()
 
     session_unset();
     session_destroy();
+
+    header('Location: ./index.php');
+    exit;
 }
+
 
 function createAuthUser(PDO $conn, $values)
 {

@@ -1,7 +1,10 @@
+<!-- Session user -->
+<!-- Get estate by estate code -->
 <?php
+include_once './database/connection.php';
 include_once './services/auth.php';
 include_once './services/userService.php';
-include_once './database/connection.php';
+include_once './services/estateService.php';
 ?>
 
 <?php
@@ -12,35 +15,50 @@ if (!$sessionUser) {
     exit;
 }
 
+// get search parameters
 $id = $_GET['id'] ?? null;
-
 $response = getUserById($conn, $id);
-$userInformation = $response['data'];
+$user = $response['data'];
+
+// Get estate name by estate code
+$estateResponse = getEstateByCode($conn, $user['estate_code']);
+if ($estateResponse['success']) {
+    $estate = $estateResponse['data'];
+}
 
 ?>
 
+
+<!-- Update user session -->
 <?php
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $values = [
-        'username' => $_POST['username'],
-        'password' => $_POST['password'],
-        'user_id' => $userInformation['id']
+        'first_name' => $_POST['first_name'],
+        'last_name' => $_POST['last_name'],
+        'email' => $_POST['email'],
+        'estate_code' => $_SESSION['estate_code'],
+        'role' => $_SESSION['role'],
+        'is_registered' => $_SESSION['is_registered']
     ];
 
-    // Save the auth user
-    $response = createAuthUser($conn, $values);
+    // Save the incident
+    $response = updateRegisteredUserByUserID($conn, $id, $values);
 
     if ($response['success']) {
         $_SESSION['success_message'] = $response['message'];
-        header('Location: ' . $_SERVER['PHP_SELF']);
-        exit;
+        $successAndRedirect = true;
     } else {
         $_SESSION['error_message'] = $response['message'];
-        header('Location: ' . $_SERVER['PHP_SELF']);
-        exit;
+        $successAndRedirect = false;
     }
 }
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User - Action</title>
+    <title>User Profile</title>
     <?php include_once './shared/links.php' ?>
     <?php include_once './shared/functions.php' ?>
 </head>
@@ -61,73 +79,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="container">
                 <div class="px-16 w-full">
                     <div class="page-header">
-                        <p class="breadcrumb">Request Access</p>
-                        <h2 class="page-title">User Information</h2>
+                        <p class="breadcrumb">User Profile</p>
+                        <h2 class="page-title">Edit User Information</h2>
                     </div>
-                    <section class="heading-wrapper">
-                        <div class="page-header">
-                            <p class="breadcrumb">Profile Information</p>
-                        </div>
-                        <div class="form-wrapper">
-                            <div class="form-group">
-                                <label class="form-label">First Name</label>
-                                <div class="form-value">
-                                    <?= htmlspecialchars($userInformation['first_name']) ?>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Last Name</label>
-                                <div class="form-value">
-                                    <?= htmlspecialchars($userInformation['last_name']) ?>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Email Address</label>
-                                <div class="form-value">
-                                    <?= htmlspecialchars($userInformation['email']) ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="subsection-label">Plantation specific information</div>
-                        <!-- Estate Name -->
+
+                    <form method="POST">
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
                         <div class="form-group">
-                            <div class="form-value accent">
-                                <?= htmlspecialchars($userInformation['estate_code']) ?>
-                            </div>
+                            <input
+                                type="text"
+                                name="first_name"
+                                class="form-input"
+                                value="<?= htmlspecialchars($user['first_name']); ?>"
+                                placeholder="First Name"
+                                required>
                         </div>
-
-                        <!-- User Role -->
                         <div class="form-group">
-                            <div class="form-value">
-                                <?= htmlspecialchars($userInformation['role']) ?>
-                            </div>
+                            <input
+                                type="text"
+                                name="last_name"
+                                class="form-input"
+                                value="<?= htmlspecialchars($user['last_name']); ?>"
+                                placeholder="Last Name"
+                                required>
                         </div>
-                        <div class="button-group">
-                            <button
-                                type="button"
-                                class="btn btn-accept"
-                                onclick="acceptUser()">Accept</button>
-                            <button class="btn btn-reject">Reject</button>
+
+                        <div class="form-group">
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-input"
+                                value="<?= htmlspecialchars($user['email']); ?>"
+                                placeholder="Email"
+                                required>
+                            <div class="helper-text">Email is a unique identifier</div>
                         </div>
-                    </section>
 
-                    <div class="divider"></div>
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                name="estate"
+                                class="form-input"
+                                placeholder="estate"
+                                value="<?= $estate['estate_name'] ?>"
+                                disabled readonly>
+                        </div>
 
-                    <div class="password-section" id="password-section">
-                        <h2 class="password-title">Create Password</h2>
-                        <p class="password-description">Once the user logged in he/she have to change the Password to a new one</p>
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                name="userRole"
+                                class="form-input"
+                                placeholder="userRole"
+                                value="<?= $_SESSION['role'] ?>"
+                                disabled readonly>
+                        </div>
 
-                        <form method="POST">
-                            <!-- Password Input -->
-                            <input type="hidden" name="username" value="<?= $userInformation['email'] ?>">
-                            <input type="hidden" name="userId" value="<?= $userInformation['id'] ?>">
-                            <input type="text" class="form-input" name="password" placeholder="One time password">
-
-                            <!-- Send Invitation Button -->
-
-                            <button type="submit" class="continue-btn">Send Invitation</button>
-                        </form>
-                    </div>
+                        <button type="submit" class="continue-btn">Update</button>
+                    </form>
                 </div>
             </div>
         </main>
