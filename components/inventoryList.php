@@ -5,8 +5,15 @@
     include_once './services/auth.php';
 
     $sessionUser = getSessionUser();
+    if ($sessionUser['estate_code'] !== null) {
+        $response = getAllItemsByEstateCode($conn, $sessionUser['estate_code']);
+        $inventory = $response['data'];  
+    } else {
+        $response = getAllItemsByHeadOffice($conn);
+        $inventory = $response['data'];
+    }
 
-    $inventory = getAllItemsByEstateCode($conn, $sessionUser['estate_code']);
+
 
 
     if (!empty($inventory)) {

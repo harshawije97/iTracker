@@ -1,6 +1,7 @@
 <?php
 include_once './database/connection.php';
 include_once './services/incidentService.php';
+include_once './services/inventoryService.php';
 include_once './services/auth.php'
 ?>
 
@@ -17,6 +18,7 @@ $isManager = str_ends_with($sessionUser['role'], 'manager');
 $id = $_GET['id'] ?? null;
 $incident_code = $_GET['incident_code'] ?? null;
 
+
 // Get incident by ID
 $response = getIncidentByCode($conn, $incident_code);
 if (!$response['success']) {
@@ -25,6 +27,9 @@ if (!$response['success']) {
 }
 
 $incident = $response['data'];
+
+$response = getInventoryItemById($conn, $incident['inventory_id']);
+$inventoryItemName = $response['data']['name'];
 ?>
 
 <!DOCTYPE html>
@@ -52,12 +57,15 @@ $incident = $response['data'];
                                 </div>
                             </div>
                             <div class="profile-information-tab">
-                                <span class="first-name">
-                                    <?= htmlspecialchars($sessionUser['first_name']) ?>
-                                </span>
-                                <span class="first-name">
-                                    <?= htmlspecialchars($sessionUser['last_name']) ?>
-                                </span>
+                                <?php if (!$isManager) { ?>
+                                    <span class="first-name">
+                                        <?= htmlspecialchars($sessionUser['first_name']) ?>
+                                    </span>
+                                    <span class="first-name">
+                                        <?= htmlspecialchars($sessionUser['last_name']) ?>
+                                    </span>
+                                <?php } ?>
+
                                 <div class="profile-info-wrapper">
                                     <span class="badge badge-priority">
                                         <?= htmlspecialchars($incident['priority']) ?>
@@ -77,6 +85,7 @@ $incident = $response['data'];
                         <h1 class="page-title mb-0">
                             <?= htmlspecialchars($incident['title']) ?>
                         </h1>
+                        <p class="text-sm"><?= htmlspecialchars($inventoryItemName) ?></p>
                     </section>
 
                     <div class="description-section mt-2">
@@ -106,9 +115,15 @@ $incident = $response['data'];
                                 <h3><?= htmlspecialchars($incident['manager_email']) ?></h3>
                             </section>
                             <section>
-                                <button type="button" class="btn btn-success" onclick="openSheet()">
-                                    View Activity
-                                </button>
+                                <?php
+                                if ($isManager && $sessionUser['estate_code'] === null) { ?>
+
+                                <?php } else { ?>
+                                    <button type="button" class="btn btn-success" onclick="openSheet()">
+                                        View Activity
+                                    </button>
+                                <?php }
+                                ?>
                             </section>
                             <?php include_once './components/drawer.php'; ?>
                         </div>

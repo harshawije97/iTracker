@@ -16,6 +16,8 @@ if ($isManager) {
 } else {
     $response = getIncidentsByUserId($conn, $sessionUser['user_id']);
 }
+
+// var_dump($response);
 ?>
 
 <div class="incidents-list">
@@ -34,9 +36,17 @@ if ($isManager) {
                             <?= htmlspecialchars(date('Y-m-d', strtotime($incident['created_at']))) ?>
                         </span>
                     </div>
-                    <p class="incident-description">
-                        <?= htmlspecialchars($incident['description']) ?>
-                    </p>
+                    <?php
+                    if ($isManager) { ?>
+                        <p class="incident-description">
+                            Created By: <?= htmlspecialchars($incident['user_first_name'] . ' ' . $incident['user_last_name']) ?>
+                        </p>
+                    <?php } else { ?>
+                        <p class="incident-description">
+                            <?= htmlspecialchars($incident['description']) ?>
+                        </p>
+                    <?php }
+                    ?>
                     <?php
                     if ($incident['priority'] == IncidentPriority::LOW->value) { ?>
                         <span class="status-badge">
@@ -66,6 +76,9 @@ if ($isManager) {
                             <?= htmlspecialchars($incident['priority']) ?>
                         </span>
                     <?php } ?>
+                    <p>
+                        <?= htmlspecialchars($incident['estate_code']); ?>
+                    </p>
                 </div>
             </div>
         <?php } ?>

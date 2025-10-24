@@ -39,10 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($response['success']) {
         $_SESSION['success_message'] = $response['message'];
-        exit;
+
     } else {
         $_SESSION['error_message'] = $response['message'];
-        exit;
     }
 }
 
@@ -54,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container">
         <h1 class="title">Update Process</h1>
 
-        <form method="POST" id="incidentUpdateForm">
+        <form method="POST" enctype="multipart/form-data" id="incidentUpdateForm">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
             <div class="form-group mt-20">
                 <select class="priority-dropdown" name="status" required>

@@ -1887,6 +1887,13 @@ dialog {
   }
 }
 
+.title-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 /* Dialog Header */
 .dialog-header {
   display: flex;

@@ -42,13 +42,76 @@ function getIncidentsByEstateCode(PDO $conn, $estateCode)
 function getAllIncidents(PDO $conn, $username)
 {
     try {
-        // Get all incidents and filter by username if there are any
-        $stmt = $conn->prepare("SELECT * FROM incidents WHERE (manager_email = :username OR manager_email IS NULL OR manager_email = '') ORDER BY created_at DESC");
+        $stmt = $conn->prepare("
+            SELECT 
+                i.*,
+                inv.name AS inventory_name,
+                u.first_name AS user_first_name,
+                u.last_name AS user_last_name
+            FROM incidents i
+            INNER JOIN inventory inv ON i.inventory_id = inv.id
+            INNER JOIN users u ON i.user_id = u.id
+            WHERE (i.manager_email = :username OR i.manager_email IS NULL OR i.manager_email = '')
+            ORDER BY i.created_at DESC
+        ");
         $stmt->bindParam(':username', $username);
         $stmt->execute();
         return [
             'success' => true,
             'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get incidents: ' . $error->getMessage()
+        ];
+    }
+}
+
+function getIncidents(PDO $conn)
+{
+    try {
+        $stmt = $conn->prepare("SELECT * FROM incidents ORDER BY created_at DESC");
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => true,
+            'message' => 'Failed to get incidents: ' . $error->getMessage()
+        ];
+    }
+}
+
+function getAllIncidentsByUsername(PDO $conn, $user_id)
+{
+    try {
+        $stmt = $conn->prepare("SELECT * FROM incidents WHERE user_id = :user_id ORDER BY created_at DESC");
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get incidents: ' . $error->getMessage()
+        ];
+    }
+}
+
+function countAllIncidentsByUsername(PDO $conn, $user_id)
+{
+    try {
+        $stmt = $conn->prepare("SELECT COUNT(*) as count FROM incidents WHERE user_id = :user_id");
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetch(PDO::FETCH_ASSOC)
         ];
     } catch (PDOException $error) {
         return [
@@ -105,7 +168,6 @@ function saveIncident(PDO $conn, $values)
             'success' => true,
             'message' => 'Incident created successfully'
         ];
-
     } catch (PDOException $error) {
         return [
             'success' => false,

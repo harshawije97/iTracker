@@ -6,31 +6,79 @@ require_once './services/constants/enums.php';
 // Get all inventory items by user id
 function getInventoryItemsByUserId(PDO $conn, int $userId)
 {
-    $stmt = $conn->prepare("SELECT * FROM inventory WHERE user_id = :userId");
-    $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $conn->prepare("SELECT * FROM inventory WHERE user_id = :userId");
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get inventory items: ' . $error->getMessage()
+        ];
+    }
 }
 
 // Get all inventory items by estate code
 function getInventoryOnStoreItemsByEstateCode(PDO $conn, string $estateCode)
 {
-    $stmt = $conn->prepare("SELECT * FROM inventory WHERE estate_code = :estateCode AND item_status != :itemStatus");
+    try {
+        $stmt = $conn->prepare("SELECT * FROM inventory WHERE estate_code = :estateCode AND item_status != :itemStatus");
 
-    $itemStatus = ItemStatus::ON_REPAIR->value;
+        $itemStatus = ItemStatus::ON_REPAIR->value;
 
-    $stmt->bindParam(':estateCode', $estateCode, PDO::PARAM_STR);
-    $stmt->bindParam(':itemStatus', $itemStatus, PDO::PARAM_STR);
+        $stmt->bindParam(':estateCode', $estateCode, PDO::PARAM_STR);
+        $stmt->bindParam(':itemStatus', $itemStatus, PDO::PARAM_STR);
 
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get inventory items: ' . $error->getMessage()
+        ];
+    }
 }
 
-function getAllItemsByEstateCode(PDO $conn, string $estateCode) {
-    $stmt = $conn->prepare("SELECT * FROM inventory WHERE estate_code = :estateCode");
-    $stmt->bindParam(':estateCode', $estateCode, PDO::PARAM_STR);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+function getAllItemsByEstateCode(PDO $conn, string $estateCode)
+{
+    try {
+        $stmt = $conn->prepare("SELECT * FROM inventory WHERE estate_code = :estateCode");
+        $stmt->bindParam(':estateCode', $estateCode, PDO::PARAM_STR);
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get items: ' . $error->getMessage()
+        ];
+    }
+}
+
+function getAllItemsByHeadOffice(PDO $conn)
+{
+    try {
+        $stmt = $conn->prepare("SELECT * FROM inventory WHERE estate_code IS NULL");
+        $stmt->execute();
+        return [
+            'success' => true,
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get items: ' . $error->getMessage()
+        ];
+    }
 }
 
 
@@ -124,10 +172,21 @@ function updateInventoryItem(PDO $conn, int $itemId, $values)
 // Get inventory item by id
 function getInventoryItemById(PDO $conn, int $id)
 {
-    $stmt = $conn->prepare("SELECT * FROM inventory WHERE id = :id");
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $conn->prepare("SELECT * FROM inventory WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return [
+            'success' => true,
+            'data' => $stmt->fetch(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get inventory item: ' . $error->getMessage()
+        ];
+    }
 }
 
 // Archive item

@@ -1,4 +1,7 @@
-<?php include_once './services/auth.php'; ?>
+<?php
+include_once './services/auth.php';
+include_once './database/connection.php';
+include_once './services/incidentService.php'; ?>
 
 <?php
 
@@ -8,7 +11,34 @@ if (!$sessionUser) {
     exit;
 }
 
-// Get all tickets
+$sessionUser = getSessionUser();
+if (!$sessionUser) {
+    header('Location: index.php');
+    exit;
+}
+
+$isManager = str_ends_with($sessionUser['role'], 'manager');
+$isEstate = $sessionUser['estate_code'] !== null;
+
+// Get all tickets with a switch case
+// if $isManager and $isEstate both true, then get all tickets by estate code
+// if $isManager true but $isEstate false, then get all tickets.
+// if $isManager and $isEstate both false, then get all tickets by user id
+if ($isManager && $isEstate) {
+    // Get all tickets by estate code
+    $tickets = getIncidentsByEstateCode($conn, $sessionUser['estate_code']);
+    $tickets = $response['data'];
+
+    var_dump($tickets);
+} elseif ($isManager && !$isEstate) {
+    // Get all tickets
+    $response = getIncidents($conn);
+    $tickets = $response['data'];
+} else {
+    // Get all tickets by user id
+    $response = getAllIncidentsByUsername($conn, $sessionUser['user_id']);
+    $tickets = $response['data'];
+}
 
 ?>
 
@@ -40,7 +70,9 @@ if (!$sessionUser) {
                 <div class="cards-grid">
                     <div class="ticket-card all-tickets">
                         <div class="card-label">All Tickets</div>
-                        <div class="card-number">0</div>
+                        <div class="card-number">
+                            <?= count($tickets) ?>
+                        </div>
                     </div>
                     <div class="ticket-card opened">
                         <div class="card-label">Opened</div>
