@@ -1,7 +1,6 @@
 <?php
-
-require_once './services/auth.php';
-require_once './services/constants/enums.php';
+require_once __DIR__ . '/constants/enums.php';
+require_once __DIR__ . '/../database/connection.php';
 
 // Get all inventory items by user id
 function getInventoryItemsByUserId(PDO $conn, int $userId)
@@ -55,6 +54,28 @@ function getAllItemsByEstateCode(PDO $conn, string $estateCode)
         return [
             'success' => true,
             'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get items: ' . $error->getMessage()
+        ];
+    }
+}
+
+function searchItemsByKeywords(PDO $conn, string $keyword)
+{
+    try {
+        $stmt = $conn->prepare("SELECT * FROM inventory WHERE name LIKE :keyword");
+        $stmt->bindValue(':keyword', '%' . $keyword . '%', PDO::PARAM_STR);
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $json = json_encode($rows);
+
+        return [
+            'success' => true,
+            'data' => $json
         ];
     } catch (PDOException $error) {
         return [

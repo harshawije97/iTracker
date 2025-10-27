@@ -1,7 +1,16 @@
- <?php include_once './services/auth.php'; ?>
+ <?php
+    include_once './services/auth.php';
+    include_once './database/connection.php';
+    include_once './services/estateService.php';
+    ?>
 
  <?php
     $sessionUser = getSessionUser();
+
+    // Get estate name 
+    $response = getEstateByCode($conn, $sessionUser['estate_code']);
+    $estate = $response['data'];
+
     ?>
 
  <aside class="sidebar" id="sidebar">
@@ -11,9 +20,9 @@
                  <?= htmlspecialchars($sessionUser['username']) ?>
              </h2>
              <p class="user-info">Hi, <?= htmlspecialchars($sessionUser['first_name']) ?></p>
-             <p class="user-info-small text-green"><?= htmlspecialchars($sessionUser['estate_code']) ?></p>
+             <p class="user-info-small text-green"><?= htmlspecialchars($estate['estate_name']) ?> Estate</p>
          </div>
-         <button id="closeBtn">&times;</button>
+         <button id="closeBtn" onclick="closeSidebar()">&times;</button>
      </div>
      <ul class="sidebar-menu">
          <li class="sidebar-item">
@@ -70,13 +79,7 @@
          <?php } ?>
      </ul>
      <div class="sidebar-footer">
-         <form action="">
-             <div class="user-box">
-                 <div class="user-avatar"></div>
-                 <button>
-                     <span>Logout</span>
-                 </button>
-             </div>
-         </form>
+         <p>Version 1.0</p>
+         <p>&copy; 2023 iTracker</p>
      </div>
  </aside>

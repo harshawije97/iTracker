@@ -26,20 +26,43 @@ function resetForm() {
   alert("Form has been reset successfully!");
 }
 
-// sidebar
-function toggleSideBar() {
-  const sidebar = document.getElementById("sidebar");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const closeButton = document.getElementById("closeBtn");
+const menuBtn = document.getElementById("menuBtn");
+
+// Open sidebar
+function openSidebar() {
   sidebar.classList.add("open");
   overlay.classList.add("show");
+}
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const overlay = document.getElementById("overlay");
-    const menuBtn = document.getElementById("menuBtn");
+// Close sidebar
+function closeSidebar() {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+}
 
-    const closeButton = document.getElementById("closeBtn");
-    if (closeButton) {
-      sidebar.classList.remove("open");
-      overlay.classList.remove("show");
+// Toggle sidebar (optional if you need this)
+function toggleSideBar() {
+  if (sidebar.classList.contains("open")) {
+    closeSidebar();
+  } else {
+    openSidebar();
+  }
+}
+
+// Button click events
+if (menuBtn) menuBtn.addEventListener("click", openSidebar);
+if (closeButton) closeButton.addEventListener("click", closeSidebar);
+if (overlay) overlay.addEventListener("click", closeSidebar);
+
+// sidebar
+document.addEventListener("DOMContentLoaded", () => {
+  // Keyboard: close on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && sidebar.classList.contains("open")) {
+      closeSidebar();
     }
   });
-}
+});

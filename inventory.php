@@ -30,20 +30,7 @@ if (!$sessionUser) {
                         <h2 class="page-title">All Inventory Items</h2>
                     </div>
                     <div class="search-filter-container">
-                        <div class="search-box">
-                            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <path d="m21 21-4.35-4.35"></path>
-                            </svg>
-                            <input type="text" placeholder="Search items" class="search-input">
-                        </div>
-                        <!-- filter the inventory items -->
-                        <select name="inventoryItems" id="inventoryItems" class="filter-btn">
-                            <option>Filter</option>
-                            <option value="resent">Recently Added</option>
-                            <option value="in-stock">In Stock</option>
-                            <option value="on-repair">On Repair</option>
-                        </select>
+                        <?php include_once "./components/inventoryFind.php"; ?>
                     </div>
                     <?php include_once './components/inventoryList.php'; ?>
                     <a href="./newItem.php">
