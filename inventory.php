@@ -32,7 +32,9 @@ if (!$sessionUser) {
                     <div class="search-filter-container">
                         <?php include_once "./components/inventoryFind.php"; ?>
                     </div>
-                    <?php include_once './components/inventoryList.php'; ?>
+                    <div>
+                        <?php include_once './components/inventoryList.php'; ?>
+                    </div>
                     <a href="./newItem.php">
                         <button type="button" class="fab">Add Item</button>
                     </a>

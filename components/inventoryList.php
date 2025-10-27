@@ -1,4 +1,4 @@
-<div class="incidents-list">
+<div class="incidents-list" id="inventoryList">
     <?php
     include_once './database/connection.php';
     include_once './services/inventoryService.php';
@@ -7,7 +7,7 @@
     $sessionUser = getSessionUser();
     if ($sessionUser['estate_code'] !== null) {
         $response = getAllItemsByEstateCode($conn, $sessionUser['estate_code']);
-        $inventory = $response['data'];  
+        $inventory = $response['data'];
     } else {
         $response = getAllItemsByHeadOffice($conn);
         $inventory = $response['data'];

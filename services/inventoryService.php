@@ -66,7 +66,11 @@ function getAllItemsByEstateCode(PDO $conn, string $estateCode)
 function searchItemsByKeywords(PDO $conn, string $keyword)
 {
     try {
-        $stmt = $conn->prepare("SELECT * FROM inventory WHERE name LIKE :keyword");
+        $stmt = $conn->prepare("SELECT id, serial_number, name, description, 
+            estate_code, user_id, item_status, created_at 
+            FROM inventory 
+            WHERE MATCH(name) AGAINST(:keyword IN BOOLEAN MODE)
+            LIMIT 50");
         $stmt->bindValue(':keyword', '%' . $keyword . '%', PDO::PARAM_STR);
         $stmt->execute();
 
