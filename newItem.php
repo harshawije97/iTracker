@@ -27,13 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $response = saveInventoryItem($conn, $values);
     if ($response['success']) {
-        $_SESSION['success_message'] = $result['message'];
-        header('Location: ' . $_SERVER['PHP_SELF']);
-        exit;
+        $_SESSION['success_message'] = $response['message'];
+        // header('Location: ' . $_SERVER['PHP_SELF']);
+        // exit;
     } else {
         $_SESSION['error_message'] = $response['message'];
-        header('Location: ' . $_SERVER['PHP_SELF']); // Prevent the resubmission of the form
-        exit;
+        // header('Location: ' . $_SERVER['PHP_SELF']); // Prevent the resubmission of the form
+        // exit;
     }
 }
 ?>

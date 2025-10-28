@@ -1,8 +1,22 @@
+<?php
+include_once __DIR__ . '/../services/auth.php';
+
+$session_user = getSessionUser();
+$username = $session_user['username'];
+
+?>
+
+
 <dialog id="dialog">
     <div class="dialog-header">
-        <h2 class="dialog-title">Profile Actions</h2>
+        <h2 class="dialog-title">
+            <?= htmlspecialchars($username) ?>
+        </h2>
         <button class="dialog-close" onclick="document.getElementById('dialog').close()">
-            ✕
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x">
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+            </svg>
         </button>
     </div>
 
@@ -19,7 +33,7 @@
 
                 <div class="command-content">
                     <div class="command-section">
-                        <div class="section-label">Suggestions</div>
+                        <div class="section-label">Actions</div>
                         <div class="command-item" data-action="calendar">
                             <svg class="item-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>

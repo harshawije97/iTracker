@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="form-group">
                             <select class="select-field" name="inventory_id" required>
-                                <option disabled selected>Select Inventory Item</option>
+                                <option value="">Select Inventory Item</option>
                                 <?php foreach ($inventory as $item) {
                                 ?>
                                     <option value="<?= $item['id'] ?>">
@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="form-group">
                             <select class="priority-dropdown" name="priority" required>
-                                <option disabled selected>Select Priority</option>
+                                <option value="">Select Priority</option>
                                 <option value="Low">Low</option>
                                 <option value="Moderate">Moderate</option>
                                 <option value="High">High</option>
@@ -135,8 +135,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="form-group">
-                            <select class="select-field" name="manager_email">
-                                <option disabled selected>Assign to manager</option>
+                            <select class="select-field" name="manager_email" required>
+                                <option value="">Assign to manager</option>
                                 <?php foreach ($headOfficeManagers as $manager) { ?>
                                     <option value="<?= htmlspecialchars($manager['email']) ?>">
                                         <?= htmlspecialchars($manager['first_name']) . ' ' . htmlspecialchars($manager['last_name']) ?>

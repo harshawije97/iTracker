@@ -44,28 +44,63 @@ if ($incident_code) {
 
     <!-- Sheet Content -->
     <div class="sheet-content">
-        <?php if (count($incidentHistory) > 0) { ?>
-            <div class="incident-history">
-                <ul>
-                    <?php
-                    foreach ($incidentHistory as $incident) {
-                        echo '<li>';
-                        echo '<h3 class="incident-title-sm">' . htmlspecialchars($incident['title']) . '</h3>';
-                        echo '<span class="incident-date">' . htmlspecialchars(date('Y-m-d', strtotime($incident['incident_created_at']))) . '</span>';
-                        echo '<div class="incident-date">' . htmlspecialchars($incident['update_description']) . '</div>';
-                        echo '<div class="incident-date">' . htmlspecialchars($incident['status']) . '</div>';
-                        echo '</li>';
-                    }
-                    ?>
-                </ul>
+        <div class="activity-list">
+            <!-- Activity Item 1 -->
+            <div class="activity-item">
+                <div class="timeline-dot"></div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span>📋</span>
+                        Created "Preline in React" task
+                    </div>
+                    <div class="activity-description">Find more detailed insctructions here.</div>
+                    <div class="activity-user">
+                        <div class="user-avatar">JC</div>
+                        <span class="user-name">James Collins</span>
+                    </div>
+                </div>
             </div>
-        <?php } else { ?>
-            <div class='empty-items-container'>
-                <p class='color-gray'>
-                    No Incident History
-                </p>
+
+            <!-- Activity Item 2 -->
+            <div class="activity-item">
+                <div class="timeline-dot"></div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Release v5.2.0 quick bug fix <span class="activity-icon">🐛</span>
+                    </div>
+                    <div class="activity-user">
+                        <div class="user-avatar" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">AG</div>
+                        <span class="user-name">Alex Gregorov</span>
+                    </div>
+                </div>
             </div>
-        <?php } ?>
+
+            <!-- Activity Item 3 -->
+            <div class="activity-item">
+                <div class="timeline-dot"></div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Marked "Install Charts" completed
+                    </div>
+                    <div class="activity-description">Finally! You can check it out here.</div>
+                    <div class="activity-user">
+                        <div class="user-avatar">JC</div>
+                        <span class="user-name">James Collins</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Item 4 -->
+            <div class="activity-item">
+                <div class="timeline-dot"></div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Take a break <span class="activity-icon">🌴</span>
+                    </div>
+                    <div class="activity-description">Just chill for now... 😊</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

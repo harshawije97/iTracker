@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS incidents (
 );
 
 ALTER TABLE incidents 
-MODIFY COLUMN manager_email TEXT NULL;
+MODIFY COLUMN manager_email TEXT NOT NULL;
 
 CREATE INDEX idx_incidents_inventory_id ON incidents(inventory_id);
 CREATE INDEX idx_incidents_estate_code ON incidents(estate_code);

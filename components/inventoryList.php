@@ -20,11 +20,16 @@
             <div class="incident-item">
                 <div class="incident-content">
                     <div class="incident-header">
-                        <a href="./inventoryItem.php?id=<?= $item['id'] ?>&serial_number=<?= $item['serial_number'] ?>" class="hover-underline">
-                            <h3 class="incident-title" data-item-id="<?= $item['id'] ?>">
-                                <?= htmlspecialchars($item['name'] ?? 'Unknown Item') ?>
-                            </h3>
-                        </a>
+                        <div class="header-wrapper">
+                            <p class="small-text">
+                                <?= htmlspecialchars($item['serial_number']) ?>
+                            </p>
+                            <a href="./inventoryItem.php?id=<?= $item['id'] ?>&serial_number=<?= $item['serial_number'] ?>" class="hover-underline">
+                                <h3 class="incident-title" data-item-id="<?= $item['id'] ?>">
+                                    <?= htmlspecialchars($item['name'] ?? 'Unknown Item') ?>
+                                </h3>
+                            </a>
+                        </div>
                         <!-- popover button for options -->
                         <span class="popover-container">
                             <button type="button" class="incident-options popover-trigger" onclick="toggleSidePopover(this)">
