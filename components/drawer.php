@@ -1,6 +1,7 @@
 <?php
-include_once './services/auth.php';
+include_once __DIR__ . '/../services/auth.php';
 include_once './services/incidentProcessService.php';
+include_once __DIR__ . '/../services/userService.php';
 ?>
 
 <?php
@@ -12,7 +13,6 @@ $serial_number = $_GET['serial_number'] ?? null;
 if ($incident_code) {
     $response = getIncidentHistoryById($conn, $id);
     $data = $response['data'];
-    // var_dump($data);
 
     if ($response['success']) {
         $incidentHistory = $response['data'];
@@ -46,60 +46,30 @@ if ($incident_code) {
     <div class="sheet-content">
         <div class="activity-list">
             <!-- Activity Item 1 -->
-            <div class="activity-item">
-                <div class="timeline-dot"></div>
-                <div class="activity-content">
-                    <div class="activity-title">
-                        <span>📋</span>
-                        Created "Preline in React" task
-                    </div>
-                    <div class="activity-description">Find more detailed insctructions here.</div>
-                    <div class="activity-user">
-                        <div class="user-avatar">JC</div>
-                        <span class="user-name">James Collins</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Activity Item 2 -->
-            <div class="activity-item">
-                <div class="timeline-dot"></div>
-                <div class="activity-content">
-                    <div class="activity-title">
-                        Release v5.2.0 quick bug fix <span class="activity-icon">🐛</span>
-                    </div>
-                    <div class="activity-user">
-                        <div class="user-avatar" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">AG</div>
-                        <span class="user-name">Alex Gregorov</span>
+            <?php
+            foreach ($data as $item) { ?>
+                <div class="activity-item">
+                    <div class="timeline-dot"></div>
+                    <div class="activity-content">
+                        <div class="activity-title">
+                            <span>📋</span>
+                            <?= htmlspecialchars($item['status']); ?>
+                        </div>
+                        <div class="activity-description">
+                            <?= htmlspecialchars($item['update_description']); ?>
+                        </div>
+                        <div class="activity-user">
+                            <div class="user-avatar">
+                                JW
+                            </div>
+                            <span class="user-name">
+                                first name last name
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Activity Item 3 -->
-            <div class="activity-item">
-                <div class="timeline-dot"></div>
-                <div class="activity-content">
-                    <div class="activity-title">
-                        Marked "Install Charts" completed
-                    </div>
-                    <div class="activity-description">Finally! You can check it out here.</div>
-                    <div class="activity-user">
-                        <div class="user-avatar">JC</div>
-                        <span class="user-name">James Collins</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Activity Item 4 -->
-            <div class="activity-item">
-                <div class="timeline-dot"></div>
-                <div class="activity-content">
-                    <div class="activity-title">
-                        Take a break <span class="activity-icon">🌴</span>
-                    </div>
-                    <div class="activity-description">Just chill for now... 😊</div>
-                </div>
-            </div>
+            <?php }
+            ?>
         </div>
     </div>
 </div>

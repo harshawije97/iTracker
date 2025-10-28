@@ -236,7 +236,8 @@ function getIncidentByCode(PDO $conn, $incidentCode)
 }
 
 // Search by keywords
-function searchByIncidentKeywords(PDO $conn, string $keywords) {
+function searchByIncidentKeywords(PDO $conn, string $keywords)
+{
     try {
         $stmt = $conn->prepare("SELECT * FROM incidents WHERE title LIKE :keywords OR description LIKE :keywords");
         $stmt->bindValue(':keywords', '%' . $keywords . '%', PDO::PARAM_STR);
@@ -245,11 +246,29 @@ function searchByIncidentKeywords(PDO $conn, string $keywords) {
             'success' => true,
             'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
         ];
-        
     } catch (PDOException $error) {
         return [
             'success' => false,
             'message' => 'Failed to get incidents: ' . $error->getMessage()
+        ];
+    }
+}
+
+// Get incident status
+function getIncidentStatus(PDO $conn, $incidentId)
+{
+    try {
+        $query = $conn->prepare("SELECT status FROM incident_updates WHERE incident_id = :incident_id");
+        $query->bindParam(':incident_id', $incidentId);
+        $query->execute();
+        return [
+            'success' => true,
+            'data' => $query->fetch(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get incident status: ' . $error->getMessage()
         ];
     }
 }

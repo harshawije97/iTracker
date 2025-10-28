@@ -45,42 +45,44 @@ if ($isManager) {
                         </p>
                     <?php }
                     ?>
-                    <?php
-                    if ($incident['priority'] == IncidentPriority::LOW->value) { ?>
-                        <span class="status-badge">
-                            <?= htmlspecialchars($incident['priority']) ?>
-                        </span>
-                    <?php } ?>
-                    <?php
-                    if ($incident['priority'] == IncidentPriority::MODERATE->value) { ?>
-                        <span class="status-badge badge-moderate">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-column-increasing-icon lucide-chart-no-axes-column-increasing">
-                                <path d="M5 21v-6" />
-                                <path d="M12 21V9" />
-                                <path d="M19 21V3" />
-                            </svg>
-                            <?= htmlspecialchars($incident['priority']) ?>
-                        </span>
-                    <?php } ?>
+                    <div class="incident-footer">
+                        <?php
+                        if ($incident['priority'] == IncidentPriority::LOW->value) { ?>
+                            <span class="status-badge">
+                                <?= htmlspecialchars($incident['priority']) ?>
+                            </span>
+                        <?php } ?>
+                        <?php
+                        if ($incident['priority'] == IncidentPriority::MODERATE->value) { ?>
+                            <span class="status-badge badge-moderate">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-column-increasing-icon lucide-chart-no-axes-column-increasing">
+                                    <path d="M5 21v-6" />
+                                    <path d="M12 21V9" />
+                                    <path d="M19 21V3" />
+                                </svg>
+                                <?= htmlspecialchars($incident['priority']) ?>
+                            </span>
+                        <?php } ?>
 
-                    <?php
-                    if ($incident['priority'] == IncidentPriority::HIGH->value) { ?>
-                        <span class="status-badge badge-danger">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-alert-icon lucide-triangle-alert">
-                                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
-                                <path d="M12 9v4" />
-                                <path d="M12 17h.01" />
-                            </svg>
-                            <?= htmlspecialchars($incident['priority']) ?>
-                        </span>
-                    <?php } ?>
-                    <?php
-                    if ($isManager) { ?>
-                        <div class="status-badge-green">
-                            Estate Code
-                            <?= htmlspecialchars($incident['estate_code']); ?>
-                        </div>
-                    <?php } ?>
+                        <?php
+                        if ($incident['priority'] == IncidentPriority::HIGH->value) { ?>
+                            <span class="status-badge badge-danger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-alert-icon lucide-triangle-alert">
+                                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                                    <path d="M12 9v4" />
+                                    <path d="M12 17h.01" />
+                                </svg>
+                                <?= htmlspecialchars($incident['priority']) ?>
+                            </span>
+                        <?php } ?>
+                        <?php
+                        if ($isManager) { ?>
+                            <div class="status-badge-green">
+                                Estate Code
+                                <?= htmlspecialchars($incident['estate_code']); ?>
+                            </div>
+                        <?php } ?>
+                    </div>
                 </div>
             </div>
         <?php } ?>

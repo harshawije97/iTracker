@@ -2,7 +2,8 @@
 include_once './database/connection.php';
 include_once './services/incidentService.php';
 include_once './services/inventoryService.php';
-include_once './services/auth.php'
+include_once './services/auth.php';
+include_once __DIR__ . '/services/userService.php';
 ?>
 
 <?php
@@ -19,6 +20,7 @@ $id = $_GET['id'] ?? null;
 $incident_code = $_GET['incident_code'] ?? null;
 
 
+
 // Get incident by ID
 $response = getIncidentByCode($conn, $incident_code);
 if (!$response['success']) {
@@ -27,12 +29,19 @@ if (!$response['success']) {
 }
 
 $incident = $response['data'];
+if ($isManager) {
+    $response = getUserById($conn, $incident['user_id']);
+    $incidentUser = $response['data'];
 
+    $userInitials = substr($incidentUser['first_name'], 0, 1) . substr($incidentUser['last_name'], 0, 1);
+} else {
+    $userInitials = substr($sessionUser['first_name'], 0, 1) . substr($sessionUser['last_name'], 0, 1);
+}
+
+// Get inventory item by inventory id
 $response = getInventoryItemById($conn, $incident['inventory_id']);
 $inventoryItemName = $response['data']['name'];
 
-// User initials
-$userInitials = substr($sessionUser['first_name'], 0, 1) . substr($sessionUser['last_name'], 0, 1);
 ?>
 
 <!DOCTYPE html>
@@ -58,6 +67,14 @@ $userInitials = substr($sessionUser['first_name'], 0, 1) . substr($sessionUser['
                                 <div class="avatar">
                                     <?= htmlspecialchars($userInitials) ?>
                                 </div>
+                                <?php if ($isManager) { ?>
+                                    <span class="first-name">
+                                        <?= htmlspecialchars($incidentUser['first_name']) ?>
+                                    </span>
+                                    <span class="first-name">
+                                        <?= htmlspecialchars($incidentUser['last_name']) ?>
+                                    </span>
+                                <?php } ?>
                             </div>
                             <div class="profile-information-tab">
                                 <?php if (!$isManager) { ?>

@@ -20,7 +20,11 @@
                  <?= htmlspecialchars($sessionUser['username']) ?>
              </h2>
              <p class="user-info">Hi, <?= htmlspecialchars($sessionUser['first_name']) ?></p>
-             <p class="user-info-small text-green"><?= htmlspecialchars($estate['estate_name']) ?> Estate</p>
+             <?php if ($sessionUser['estate_code'] !== null) { ?>
+                 <p class="user-info-small text-green"><?= htmlspecialchars($estate['estate_name']) ?> Estate</p>
+             <?php } else {
+                    echo '<p class="user-info-small text-green">Head Office</p>';
+                } ?>
          </div>
          <button id="closeBtn" onclick="closeSidebar()">&times;</button>
      </div>

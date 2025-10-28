@@ -12,14 +12,14 @@ if (!$sessionUser) {
 }
 
 $isManager = str_ends_with($sessionUser['role'], 'manager');
-// var_dump($sessionUser['role']);
 
 // get search parameters
 $id = $_GET['id'] ?? null;
 $incident_code = $_GET['incident_code'] ?? null;
-?>
 
-<?php
+// Get incident by ID
+$response = getIncidentStatus($conn, $id);
+$incident_status = $response['data'];
 
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -55,13 +55,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST" enctype="multipart/form-data" id="incidentUpdateForm">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
             <div class="form-group mt-20">
-                <select class="priority-dropdown" name="status" required>
-                    <option disabled selected>Select Status</option>
-                    <option value="Resent" disabled selected>Resent</option>
-                    <option value="Opened">Opened</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Resolved">Resolved</option>
-                </select>
+                <?php if (count($incident_status) > 0) { ?>
+                    <select class="priority-dropdown" name="status" required>
+                        <option value="">Select Status</option>
+                        <?php
+                        $statuses = ['Opened', 'In Progress', 'Resolved'];
+                        foreach ($statuses as $status) {
+                            $selected = ($incident_status['status'] == $status) ? 'selected' : '';
+                            echo "<option value='$status' $selected>$status</option>";
+                        }
+                        ?>
+                    </select>
+                <?php } else { ?>
+                    <select class="priority-dropdown" name="status" required>
+                        <option value="">Select Status</option>
+                        <option value="Opened">Opened</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                <?php } ?>
             </div>
 
             <div class="divider"></div>
@@ -69,15 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="comments-header">
                 <h2 class="comments-title">Comments</h2>
                 <div class="comments-actions">
-                    <button type="button" class="btn btn-success" onclick="openSheet()">
-                        View Activity
-                    </button>
-                    <button class="icon-button w-none" aria-label="reset" id="addComment" onclick="resetForm()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
-                            <path d="M5 12h14" />
-                            <path d="M12 5v14" />
+                    <button type="button" class="btn btn-secondary" onclick="openSheet()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-gantt-icon lucide-chart-no-axes-gantt">
+                            <path d="M6 5h12" />
+                            <path d="M4 12h10" />
+                            <path d="M12 19h8" />
                         </svg>
-                        Add New
+                        View Activity
                     </button>
                 </div>
             </div>
