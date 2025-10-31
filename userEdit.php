@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input
                                 type="text"
                                 name="first_name"
-                                class="form-input"
+                                class="input-field"
                                 value="<?= htmlspecialchars($user['first_name']); ?>"
                                 placeholder="First Name"
                                 required>
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input
                                 type="text"
                                 name="last_name"
-                                class="form-input"
+                                class="input-field"
                                 value="<?= htmlspecialchars($user['last_name']); ?>"
                                 placeholder="Last Name"
                                 required>
@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input
                                 type="email"
                                 name="email"
-                                class="form-input"
+                                class="input-field"
                                 value="<?= htmlspecialchars($user['email']); ?>"
                                 placeholder="Email"
                                 required>
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input
                                 type="text"
                                 name="estate"
-                                class="form-input"
+                                class="input-field"
                                 placeholder="estate"
                                 value="<?= $estate['estate_name'] ?>"
                                 disabled readonly>
@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input
                                 type="text"
                                 name="userRole"
-                                class="form-input"
+                                class="input-field"
                                 placeholder="userRole"
                                 value="<?= $_SESSION['role'] ?>"
                                 disabled readonly>
