@@ -18,6 +18,7 @@ if ($isManager && $isEstate) {
     // Get all tickets by estate code
     $tickets = getIncidentsByEstateCode($conn, $sessionUser['estate_code']);
     $tickets = $response['data'];
+
 } elseif ($isManager && !$isEstate) {
     // Get all tickets
     $response = getAllIncidentCounts($conn);
@@ -26,11 +27,12 @@ if ($isManager && $isEstate) {
     $tickets_update = getAllIncidentsByStatus($conn);
     $data = $tickets_update['data'];
 
-    var_dump($data);
+    // var_dump($data);
+    
 } else {
     // Get all tickets by user id
-    $response = getAllIncidentsByUsername($conn, $sessionUser['user_id']);
-    $tickets = $response['data'];
+    $response = countAllIncidentsByUsername($conn, $sessionUser['user_id']);
+    $tickets = $response['data']['count'];
 }
 
 ?>
