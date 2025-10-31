@@ -1,0 +1,105 @@
+<?php
+include_once __DIR__ . '/../services/auth.php';
+include_once __DIR__ . '/../database/connection.php';
+include_once __DIR__ . '/../services/incidentService.php'; ?>
+
+<?php
+
+$sessionUser = getSessionUser();
+
+$isManager = str_ends_with($sessionUser['role'], 'manager');
+$isEstate = $sessionUser['estate_code'] !== null;
+
+// Logic goes like this:
+// if the user is a (head office manager) get all the tickets regardless
+// Filter it by joins
+// if the user is a (estate manager) get all the tickets by estate code
+if ($isManager && $isEstate) {
+    // Get all tickets by estate code
+    $tickets = getIncidentsByEstateCode($conn, $sessionUser['estate_code']);
+    $tickets = $response['data'];
+} elseif ($isManager && !$isEstate) {
+    // Get all tickets
+    $response = getAllIncidentCounts($conn);
+    $tickets = $response['data']['count'];
+
+    $tickets_update = getAllIncidentsByStatus($conn);
+    $data = $tickets_update['data'];
+
+    var_dump($data);
+} else {
+    // Get all tickets by user id
+    $response = getAllIncidentsByUsername($conn, $sessionUser['user_id']);
+    $tickets = $response['data'];
+}
+
+?>
+
+<!-- Get counts into separate variables -->
+<?php
+$openedCount = 0;
+foreach ($data as $incident) {
+    if ($incident['status'] === 'Opened') {
+        $openedCount++;
+    }
+}
+?>
+
+<?php
+$progressCount = 0;
+foreach ($data as $incident) {
+    if ($incident['status'] === 'In Progress') {
+        $progressCount++;
+    }
+}
+?>
+
+<?php
+$completed = 0;
+foreach ($data as $incident) {
+    if ($incident['status'] === 'In Progress') {
+        $completed++;
+    }
+}
+?>
+
+<!-- Page Title -->
+<div class="flex-between">
+    <div class="page-title">
+        <div class="breadcrumb">Dashboard</div>
+        <h1 class="page-heading">All Incidents</h1>
+    </div>
+    <select class="date-select" id="incidentFilter">
+        <option value="">Filter</option>
+        <option value="all">All</option>
+        <option value="<?= htmlspecialchars($sessionUser['username']) ?>">Assigned to me</option>
+        <!-- <option>Last 3 Months</option>
+                    <option>Last Year</option> -->
+    </select>
+</div>
+
+<!-- Ticket Cards -->
+<div class="cards-grid">
+    <div class="ticket-card all-tickets">
+        <div class="card-label">All Tickets</div>
+        <div class="card-number">
+            <?= htmlspecialchars($tickets) ?>
+        </div>
+    </div>
+    <div class="ticket-card opened">
+        <div class="card-label">Opened</div>
+        <div class="card-number">
+            <?= htmlspecialchars($openedCount) ?>
+        </div>
+    </div>
+    <div class="ticket-card processing">
+        <div class="card-label">Processing</div>
+        <div class="card-number">
+            <?= htmlspecialchars($progressCount) ?>
+        </div>
+    </div>
+    <div class="ticket-card completed">
+        <div class="card-label">Completed</div>
+        <div class="card-number">0</div>
+    </div>
+</div>

@@ -21,6 +21,7 @@ $incident_code = $_GET['incident_code'] ?? null;
 $response = getIncidentStatus($conn, $id);
 $incident_status = $response['data'];
 
+
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -55,13 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST" enctype="multipart/form-data" id="incidentUpdateForm">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
             <div class="form-group mt-20">
-                <?php if (count($incident_status) > 0) { ?>
+                <?php if ($incident_status) { ?>
                     <select class="priority-dropdown" name="status" required>
                         <option value="">Select Status</option>
                         <?php
                         $statuses = ['Opened', 'In Progress', 'Resolved'];
                         foreach ($statuses as $status) {
-                            $selected = ($incident_status['status'] == $status) ? 'selected' : '';
+                            $selected = ($incident_status == $status) ? 'selected' : '';
                             echo "<option value='$status' $selected>$status</option>";
                         }
                         ?>
@@ -79,17 +80,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="divider"></div>
 
             <div class="comments-header">
-                <h2 class="comments-title">Comments</h2>
-                <div class="comments-actions">
-                    <button type="button" class="btn btn-secondary" onclick="openSheet()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-gantt-icon lucide-chart-no-axes-gantt">
-                            <path d="M6 5h12" />
-                            <path d="M4 12h10" />
-                            <path d="M12 19h8" />
-                        </svg>
-                        View Activity
-                    </button>
-                </div>
+                <h2 class="comments-title mb-3">Comments</h2>
+                <?php
+                if ($incident_status) { ?>
+                    <div class="comments-actions">
+                        <button type="button" class="btn btn-secondary" onclick="openSheet()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-no-axes-gantt-icon lucide-chart-no-axes-gantt">
+                                <path d="M6 5h12" />
+                                <path d="M4 12h10" />
+                                <path d="M12 19h8" />
+                            </svg>
+                            View Activity
+                        </button>
+                    </div>
+                <?php } ?>
             </div>
 
             <div class="form-group">
