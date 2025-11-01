@@ -10,59 +10,6 @@ $sessionUser = getSessionUser();
 $isManager = str_ends_with($sessionUser['role'], 'manager');
 $isEstate = $sessionUser['estate_code'] !== null;
 
-// Logic goes like this:
-// if the user is a (head office manager) get all the tickets regardless
-// Filter it by joins
-// if the user is a (estate manager) get all the tickets by estate code
-if ($isManager && $isEstate) {
-    // Get all tickets by estate code
-    $tickets = getIncidentsByEstateCode($conn, $sessionUser['estate_code']);
-    $tickets = $response['data'];
-
-} elseif ($isManager && !$isEstate) {
-    // Get all tickets
-    $response = getAllIncidentCounts($conn);
-    $tickets = $response['data']['count'];
-
-    $tickets_update = getAllIncidentsByStatus($conn);
-    $data = $tickets_update['data'];
-
-    // var_dump($data);
-    
-} else {
-    // Get all tickets by user id
-    $response = countAllIncidentsByUsername($conn, $sessionUser['user_id']);
-    $tickets = $response['data']['count'];
-}
-
-?>
-
-<!-- Get counts into separate variables -->
-<?php
-$openedCount = 0;
-foreach ($data as $incident) {
-    if ($incident['status'] === 'Opened') {
-        $openedCount++;
-    }
-}
-?>
-
-<?php
-$progressCount = 0;
-foreach ($data as $incident) {
-    if ($incident['status'] === 'In Progress') {
-        $progressCount++;
-    }
-}
-?>
-
-<?php
-$completed = 0;
-foreach ($data as $incident) {
-    if ($incident['status'] === 'In Progress') {
-        $completed++;
-    }
-}
 ?>
 
 <!-- Page Title -->
@@ -85,19 +32,19 @@ foreach ($data as $incident) {
     <div class="ticket-card all-tickets">
         <div class="card-label">All Tickets</div>
         <div class="card-number">
-            <?= htmlspecialchars($tickets) ?>
+            0
         </div>
     </div>
     <div class="ticket-card opened">
         <div class="card-label">Opened</div>
         <div class="card-number">
-            <?= htmlspecialchars($openedCount) ?>
+            0
         </div>
     </div>
     <div class="ticket-card processing">
         <div class="card-label">Processing</div>
         <div class="card-number">
-            <?= htmlspecialchars($progressCount) ?>
+            0
         </div>
     </div>
     <div class="ticket-card completed">

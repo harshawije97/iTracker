@@ -3,6 +3,7 @@ include_once './database/connection.php';
 include_once './services/incidentService.php';
 include_once './services/auth.php';
 include_once './services/constants/enums.php';
+include_once __DIR__ . '/../services/constants/enums.php';
 ?>
 
 <?php
@@ -28,8 +29,26 @@ if ($isManager) {
                         <a href="./incident.php?id=<?= $incident['id'] ?>&incident_code=<?= $incident['incident_code'] ?>" class="hover-underline">
                             <h3 class="incident-title-sm">
                                 <?= htmlspecialchars($incident['title']) ?>
+                                <?php
+                                $status = getIncidentStatusByIncidentId($conn, $incident['id']);
+                                $latestStatus = $status['data'][0]['status'];
+
+                                if ($latestStatus == IncidentStatus::RESOLVED->value) { ?>
+                                    <span class="svg-green ml-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-check-icon lucide-badge-check">
+                                            <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                                            <path d="m9 12 2 2 4-4" />
+                                        </svg>
+                                    </span>
+                                <?php } else { ?>
+                                    <span class="status ml-2">
+                                        <?= htmlspecialchars($latestStatus) ?>
+                                    </span>
+                                <?php }
+                                ?>
                             </h3>
                         </a>
+
                         <span class="incident-date">
                             <?= htmlspecialchars(date('Y-m-d', strtotime($incident['created_at']))) ?>
                         </span>

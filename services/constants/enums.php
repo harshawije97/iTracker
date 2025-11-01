@@ -22,3 +22,12 @@ enum IncidentPriority: string
     case MODERATE = 'Moderate';
     case HIGH = 'High';
 }
+
+enum IncidentStatus: string
+{
+    case RESENT = 'Resent';
+    case OPENED = 'Opened';
+    case IN_PROGRESS = 'In Progress';
+    case RESOLVED = 'Resolved';
+    case CLOSED = 'Closed';
+}

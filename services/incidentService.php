@@ -4,8 +4,33 @@
 function getIncidentsByUserId(PDO $conn, $user_id)
 {
     try {
-        $stmt = $conn->prepare("SELECT * FROM incidents WHERE user_id = :user_id");
+        $stmt = $conn->prepare("SELECT i.id, 
+        i.incident_code, 
+        i.title, 
+        i.description,
+        i.priority, 
+        i.created_at
+         FROM incidents i WHERE user_id = :user_id");
         $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+
+        return [
+            'success' => true,
+            'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        ];
+    } catch (PDOException $error) {
+        return [
+            'success' => false,
+            'message' => 'Failed to get incidents: ' . $error->getMessage()
+        ];
+    }
+}
+
+function getIncidentStatusByIncidentId(PDO $conn, $incident_id)
+{
+    try {
+        $stmt = $conn->prepare("SELECT status, created_at FROM incident_updates WHERE incident_id = :incident_id ORDER BY created_at DESC");
+        $stmt->bindParam(':incident_id', $incident_id);
         $stmt->execute();
 
         return [
